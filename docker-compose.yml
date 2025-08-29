@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jetski
+    restart: unless-stopped
+    networks:
+      - dev-kit_mm-network
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "80:80"
+      - "5173:5173"
+networks:
+  dev-kit_mm-network:
+    external: true
