@@ -49,8 +49,8 @@ export function AuthProvider({ children }: {children: ReactNode}){
                     const response = await api.post('/oauth/token',{
                             grant_type: 'refresh_token',
                             refresh_token: refreshToken,
-                            client_id: '0198f715-4baf-7330-b27f-f9bcecb1a979',
-                            client_secret: 'BJL1lIpHY0MSOicRgVfFZs7W3wi54GKN2w8Cro6q',
+                            client_id: import.meta.env.VITE_OAUTH_CLIENT_ID,
+                            client_secret: import.meta.env.VITE_OAUTH_CLIENT_SECRET,
                             scope: ''
                         })
 
@@ -71,8 +71,8 @@ export function AuthProvider({ children }: {children: ReactNode}){
             try{
                 const response = await api.post('/oauth/token',{
                         grant_type: 'password',
-                        client_id: '0198f715-4baf-7330-b27f-f9bcecb1a979',
-                        client_secret: 'BJL1lIpHY0MSOicRgVfFZs7W3wi54GKN2w8Cro6q',
+                        client_id: import.meta.env.VITE_OAUTH_CLIENT_ID,
+                        client_secret: import.meta.env.VITE_OAUTH_CLIENT_SECRET,
                         username: email,
                         password: password,
                         scope: ''
