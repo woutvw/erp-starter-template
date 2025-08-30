@@ -6,6 +6,8 @@ import { JSX } from "react";
 import Login from "./pages/auth/Login";
 import RecoverPassword from "./pages/auth/RecoverPassword";
 import { useAuth } from "./context/AuthContext";
+import ClientList from "./pages/clients/Index";
+import ClientCreate from "./pages/clients/Create";
 
 function ProtectedRoute({ children }: {children: JSX.Element}) {
     const { accessToken } = useAuth();
@@ -27,7 +29,10 @@ export default function App(){
                         <DashboardLayout/>
                     </ProtectedRoute>
                     }>
-                    <Route path="/" element={<Login/>}/>
+                    <Route path="/" element={<p>home</p>}/>
+                    <Route path="/clients" element={<ClientList/>}/>
+                    <Route path="/clients/create" element={<ClientCreate/>}/>
+                    <Route path="/stock" element={<p>stock</p>}/>
                 </Route>
             </Routes>
         </Router>
