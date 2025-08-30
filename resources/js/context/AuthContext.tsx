@@ -55,6 +55,9 @@ export function AuthProvider({ children }: {children: ReactNode}){
                     setAccessToken(response.data.access_token);
                     setRefreshToken(response.data.refresh_token);
 
+                    localStorage.setItem('access_token',response.data.access_token)
+                    localStorage.setItem('refresh_token',response.data.refresh_token)
+
                     originalRequest.headers.Authorization = `Bearer ${response.data.access_token}`
                     originalRequest._retry = true;
 
