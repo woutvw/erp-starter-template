@@ -17,7 +17,7 @@ class ClientController extends Controller
             $clients->where('name','LIKE','%'.$request->search.'%');
         }
 
-        return ClientResource::collection($clients->paginate());
+        return ClientResource::collection($clients->paginate(10));
     }
 
     public function show(Client $client)

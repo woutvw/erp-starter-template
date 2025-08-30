@@ -1,17 +1,19 @@
 import Client from "../types/client";
-import api from "./axios";
+import api, { LaravelPaginationMeta } from "./axios";
 
-export function getClients(search?: string): Promise<Client[]>{
+export function getClients(search?: string, page?: number): Promise<{clients: Client[], meta: LaravelPaginationMeta}>{
     return new Promise(async (resolve, reject) => {
         try{
             const response = await api.get('/api/clients',{
                 params: {
-                    search: search
+                    search: search,
+                    page: page,
                 }
             });
 
             const clients = response.data.data;
-            return resolve(clients);
+            const meta = response.data.meta;
+            return resolve({clients, meta});
         }catch(err){
             reject(err);
         }

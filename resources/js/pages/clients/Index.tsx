@@ -9,18 +9,26 @@ import useDebounce from "../../hooks/useDebounce";
 export default function ClientList() {
     const [clients, setClients] = useState<Client[]>([]);
     const [search, setSearch] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [lastPage, setLastPage] = useState(0);
+
     const debouncedSearch = useDebounce(search, 400);
 
     const navigate = useNavigate();
     const { t } = useTranslation();
 
     useEffect(() => {
-        getClients(debouncedSearch)
-            .then((clients) => {
-                setClients(clients);
-            })
+        fetchClients(1);
     }, [debouncedSearch])
 
+    function fetchClients(page: number){
+        getClients(debouncedSearch, page)
+            .then(({clients, meta}) => {
+                setClients(clients);
+                setCurrentPage(meta.current_page);
+                setLastPage(meta.last_page);
+            })
+    }
 
 
     return (
@@ -68,6 +76,13 @@ export default function ClientList() {
                         ))}
                     </tbody>
                 </table>
+            </div>
+            <div className="flex justify-end">
+                <div className="join mt-2">
+                    <button className="join-item btn" disabled={currentPage === 1} onClick={() => fetchClients(currentPage - 1)}>«</button>
+                    <button className="join-item btn">Page {currentPage}</button>
+                    <button className="join-item btn" disabled={currentPage === lastPage} onClick={() => fetchClients(currentPage + 1)}>»</button>
+                </div>
             </div>
         </>
     )

@@ -7,11 +7,12 @@ export default function DashboardLayout() {
     const { t } = useTranslation();
 
     return (
-        <div className="min-h-screen bg-base-200 flex flex-col">
+        <div className="h-screen bg-base-200 flex flex-col">
             <div className="navbar bg-base-100 shadow-sm mb-2">
                 <p>Dashboard</p>
             </div>
-            <div className="flex grow">
+            {/* Constrain this flex to fill remaining height */}
+            <div className="flex flex-1 overflow-hidden">
                 <div className="menu menu-horizontal bg-base-100 rounded-box m-2 mt-0 flex flex-col justify-center shadow-sm">
                     <ul>
                         <li>
@@ -40,7 +41,8 @@ export default function DashboardLayout() {
                         </li>
                     </ul>
                 </div>
-                <div className="grow mr-2">
+                {/* Make only this part scroll */}
+                <div className="flex-1 mr-2 overflow-auto">
                     <Outlet />
                 </div>
             </div>
