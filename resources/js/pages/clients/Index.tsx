@@ -3,6 +3,7 @@ import { getClients } from "../../api/clientApi";
 import Client from "../../types/client";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import Icon from "../../components/Icon";
 
 export default function ClientList() {
     const [clients, setClients] = useState<Client[]>([]);
@@ -52,7 +53,11 @@ export default function ClientList() {
                                 <td>{client.city}</td>
                                 <td>{client.postal_code}</td>
                                 <td>{client.vat}</td>
-                                <td>Remove</td>
+                                <td>
+                                    <button>
+                                        <Icon name="bin" className="w-5"/>
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
