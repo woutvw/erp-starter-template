@@ -5,10 +5,12 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import { JSX } from "react";
 import Login from "./pages/auth/Login";
 import RecoverPassword from "./pages/auth/RecoverPassword";
+import { useAuth } from "./context/AuthContext";
 
 function ProtectedRoute({ children }: {children: JSX.Element}) {
-    const isAuthenticated = Boolean(localStorage.getItem('token')); // or your auth logic
-    return isAuthenticated ? children : <Navigate to="/login" replace />;
+    const { accessToken } = useAuth();
+
+    return accessToken ? children : <Navigate to="/login" replace />;
 }
 
 export default function App(){
