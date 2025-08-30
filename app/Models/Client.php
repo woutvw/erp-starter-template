@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
@@ -16,4 +17,11 @@ class Client extends Model
         'country',
         'vat',
     ];
+
+    protected static function booted()
+    {
+        static::creating(function($client){
+            $client->user_id = Auth::user()->id;
+        });
+    }
 }

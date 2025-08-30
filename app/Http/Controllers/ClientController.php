@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\storeClientRequest;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
 use Illuminate\Http\Request;
@@ -13,5 +14,12 @@ class ClientController extends Controller
         $clients = Client::paginate();
 
         return ClientResource::collection($clients);
+    }
+
+    public function store(storeClientRequest $request)
+    {
+        $client = Client::create($request->validated());
+
+        return new ClientResource($client);
     }
 }

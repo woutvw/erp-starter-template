@@ -22,7 +22,7 @@ export default function ClientList() {
                 </ul>
             </div>
             <div className="mb-2 flex justify-between">
-                <input className="input"/>
+                <input className="input focus:outline-none"/>
                 <Link to="/clients/create" className="btn btn-primary">Create client</Link>
             </div>
             <div className="rounded-box border border-base-content/5 bg-base-100">

@@ -9,3 +9,12 @@ export function getClients(): Promise<Client[]>{
         return resolve(clients);
     })
 }
+
+export function createClient(client: Client):Promise<Client>{
+    return new Promise(async (resolve, reject) => {
+        const response = await api.post('/api/clients', client);
+
+        const newClient = response.data.data;
+        return resolve(newClient);
+    })
+}
