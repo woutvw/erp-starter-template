@@ -8,6 +8,7 @@ import RecoverPassword from "./pages/auth/RecoverPassword";
 import { useAuth } from "./context/AuthContext";
 import ClientList from "./pages/clients/Index";
 import ClientCreate from "./pages/clients/Create";
+import ClientView from "./pages/clients/View";
 
 function ProtectedRoute({ children }: {children: JSX.Element}) {
     const { accessToken } = useAuth();
@@ -32,6 +33,7 @@ export default function App(){
                     <Route path="/" element={<p>home</p>}/>
                     <Route path="/clients" element={<ClientList/>}/>
                     <Route path="/clients/create" element={<ClientCreate/>}/>
+                    <Route path="/clients/:id" element={<ClientView/>}/>
                     <Route path="/stock" element={<p>stock</p>}/>
                 </Route>
             </Routes>

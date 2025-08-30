@@ -16,6 +16,11 @@ class ClientController extends Controller
         return ClientResource::collection($clients);
     }
 
+    public function show(Client $client)
+    {
+        return new ClientResource($client);
+    }
+
     public function store(storeClientRequest $request)
     {
         $client = Client::create($request->validated());
