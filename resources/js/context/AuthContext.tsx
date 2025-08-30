@@ -28,7 +28,7 @@ export function AuthProvider({ children }: {children: ReactNode}){
 
     useLayoutEffect(() => {
         const authInterceptor = api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-            config.headers.Authorization = /*!config._retry &&*/ accessToken ? `Bearer ${accessToken}` : config.headers.Authorization
+            config.headers.Authorization = accessToken && !config._retry ? `Bearer ${accessToken}` : config.headers.Authorization
 
             return config
         })
@@ -42,10 +42,8 @@ export function AuthProvider({ children }: {children: ReactNode}){
         const refreshInterceptor = api.interceptors.response.use((response) => response, async (error) => {
             const originalRequest = error.config;
 
-            if(error.response.status === 403){
+            if(error.response.status === 401){
                 try{
-                    // TODO finish the unauthorized code
-                    // https://www.youtube.com/watch?v=AcYF18oGn6Y&ab_channel=CosdenSolutions
                     const response = await api.post('/oauth/token',{
                             grant_type: 'refresh_token',
                             refresh_token: refreshToken,
@@ -54,7 +52,13 @@ export function AuthProvider({ children }: {children: ReactNode}){
                             scope: ''
                         })
 
-                    console.log(response);
+                    setAccessToken(response.data.access_token);
+                    setRefreshToken(response.data.refresh_token);
+
+                    originalRequest.headers.Authorization = `Bearer ${response.data.access_token}`
+                    originalRequest._retry = true;
+
+                    return api(originalRequest);
                 }catch(e){
                     console.error(e)
                 }
@@ -64,7 +68,7 @@ export function AuthProvider({ children }: {children: ReactNode}){
         return () => {
             api.interceptors.response.eject(refreshInterceptor)
         }
-    }, [])
+    }, [refreshToken])
 
     function login(email: string, password: string, rememberMe: boolean){
         return new Promise(async (resolve, reject) => {
