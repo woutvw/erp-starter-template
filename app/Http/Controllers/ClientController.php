@@ -11,9 +11,9 @@ class ClientController extends Controller
 {
     public function index()
     {
-        $clients = Client::paginate();
+        $clients = Client::orderBy('name');
 
-        return ClientResource::collection($clients);
+        return ClientResource::collection($clients->paginate());
     }
 
     public function show(Client $client)

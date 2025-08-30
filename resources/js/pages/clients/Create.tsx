@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { createClient } from "../../api/clientApi";
+import { useTranslation } from "react-i18next";
 
 export default function ClientCreate(){
     const [name, setName] = useState('');
@@ -9,6 +10,7 @@ export default function ClientCreate(){
     const [address, setAddress] = useState('');
 
     const navigate = useNavigate();
+    const {t} = useTranslation();
 
     function submit(e: React.FormEvent){
         e.preventDefault();
@@ -28,30 +30,30 @@ export default function ClientCreate(){
         <>
             <div className="breadcrumbs text-sm">
                 <ul>
-                    <li><Link to="/">Home</Link></li>
-                    <li><Link to="/clients">Clients</Link></li>
-                    <li>Create</li>
+                    <li><Link to="/">{t('Home')}</Link></li>
+                    <li><Link to="/clients">{t('Clients')}</Link></li>
+                    <li>{t('Create')}</li>
                 </ul>
             </div>
             <form className="card bg-base-100 p-4" onSubmit={submit}>
                 <fieldset className="fieldset">
-                    <legend className="fieldset-legend">Name*</legend>
+                    <legend className="fieldset-legend">{t('Name')}*</legend>
                     <input value={name} onChange={e => setName(e.target.value)} className="input focus:outline-none w-full"/>
                 </fieldset>
                 <fieldset className="fieldset">
-                    <legend className="fieldset-legend">Email</legend>
+                    <legend className="fieldset-legend">{t('Email')}</legend>
                     <input value={email} onChange={e => setEmail(e.target.value)} className="input focus:outline-none w-full"/>
                 </fieldset>
                 <fieldset className="fieldset">
-                    <legend className="fieldset-legend">Phone</legend>
+                    <legend className="fieldset-legend">{t('Phone')}</legend>
                     <input value={phone} onChange={e => setPhone(e.target.value)} className="input focus:outline-none w-full"/>
                 </fieldset>
                 <fieldset className="fieldset">
-                    <legend className="fieldset-legend">Address</legend>
+                    <legend className="fieldset-legend">{t('Address')}</legend>
                     <input value={address} onChange={e => setAddress(e.target.value)} className="input focus:outline-none w-full"/>
                 </fieldset>
                 <div className="flex justify-end">
-                    <button type="submit" className="btn btn-primary">Save</button>
+                    <button type="submit" className="btn btn-primary">{t('Save')}</button>
                 </div>
             </form>
         </>

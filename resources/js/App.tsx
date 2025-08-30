@@ -34,7 +34,8 @@ export default function App(){
                     <Route path="/clients" element={<ClientList/>}/>
                     <Route path="/clients/create" element={<ClientCreate/>}/>
                     <Route path="/clients/:id" element={<ClientView/>}/>
-                    <Route path="/stock" element={<p>stock</p>}/>
+                    <Route path="/orders" element={<p>Orders</p>}/>
+                    <Route path="/stock" element={<p>Stock</p>}/>
                 </Route>
             </Routes>
         </Router>
