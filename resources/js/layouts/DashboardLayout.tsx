@@ -12,6 +12,7 @@ export default function DashboardLayout(){
                         <li>
                             <Link to="/">Home</Link>
                             <Link to="/clients">Clients</Link>
+                            <Link to="/orders">Orders</Link>
                             <Link to="/stock">Stock</Link>
                         </li>
                     </ul>

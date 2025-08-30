@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
 import { getClients } from "../../api/clientApi";
 import Client from "../../types/client";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function ClientList() {
     const [clients, setClients] = useState<Client[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         getClients()
@@ -36,11 +37,12 @@ export default function ClientList() {
                             <th>City</th>
                             <th>Postal code</th>
                             <th>VAT</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {clients.map(client => (
-                            <tr key={client.id}>
+                            <tr key={client.id} onClick={() => {navigate('/clients/'+client.id)}} className="hover:bg-base-300 cursor-pointer">
                                 <td>{client.name}</td>
                                 <td>{client.email}</td>
                                 <td>{client.phone}</td>
@@ -48,6 +50,7 @@ export default function ClientList() {
                                 <td>{client.city}</td>
                                 <td>{client.postal_code}</td>
                                 <td>{client.vat}</td>
+                                <td>Remove</td>
                             </tr>
                         ))}
                     </tbody>

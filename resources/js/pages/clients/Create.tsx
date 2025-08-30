@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createClient } from "../../api/clientApi";
 
 export default function ClientCreate(){
@@ -7,6 +7,8 @@ export default function ClientCreate(){
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
+
+    const navigate = useNavigate();
 
     function submit(e: React.FormEvent){
         e.preventDefault();
@@ -18,7 +20,7 @@ export default function ClientCreate(){
                 address: address
             })
             .then((client) => {
-                console.log(client);
+                navigate('/clients/'+client.id);
             })
     }
 
