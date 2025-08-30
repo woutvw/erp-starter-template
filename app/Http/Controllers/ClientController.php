@@ -9,9 +9,13 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $clients = Client::orderBy('name');
+
+        if($request->search){
+            $clients->where('name','LIKE','%'.$request->search.'%');
+        }
 
         return ClientResource::collection($clients->paginate());
     }

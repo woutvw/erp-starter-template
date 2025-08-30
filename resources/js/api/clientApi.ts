@@ -1,10 +1,14 @@
 import Client from "../types/client";
 import api from "./axios";
 
-export function getClients(): Promise<Client[]>{
+export function getClients(search?: string): Promise<Client[]>{
     return new Promise(async (resolve, reject) => {
         try{
-            const response = await api.get('/api/clients');
+            const response = await api.get('/api/clients',{
+                params: {
+                    search: search
+                }
+            });
 
             const clients = response.data.data;
             return resolve(clients);

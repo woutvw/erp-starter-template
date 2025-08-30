@@ -13,9 +13,3 @@
 @plugin "daisyui" {
     themes: light --default, dark --prefersdark;
 }
-
-@layer components {
-    .input {
-        @apply focus:outline-none focus:ring-0 focus:ring-offset-0;
-    }
-}
