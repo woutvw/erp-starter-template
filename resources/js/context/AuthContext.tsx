@@ -95,11 +95,7 @@ export function AuthProvider({ children }: {children: ReactNode}){
                         scope: ''
                     })
 
-                setAccessToken(response.data.access_token);
-                setRefreshToken(response.data.refresh_token);
-
-                localStorage.setItem('access_token',response.data.access_token)
-                localStorage.setItem('refresh_token',response.data.refresh_token)
+                logout();
 
                 return resolve(true);
             }catch(e){
@@ -115,6 +111,9 @@ export function AuthProvider({ children }: {children: ReactNode}){
     function logout(){
         setAccessToken('');
         setRefreshToken('');
+
+        localStorage.removeItem('access_token')
+        localStorage.removeItem('refresh_token')
     }
 
     return (
