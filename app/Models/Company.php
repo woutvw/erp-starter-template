@@ -10,4 +10,9 @@ class Company extends Model
         'name',
         'vat',
     ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }
