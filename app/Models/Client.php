@@ -24,8 +24,8 @@ class Client extends Model
     protected static function booted()
     {
         static::creating(function($client){
-            if(!isset($client->user_id)){
-                $client->user_id = Auth::user()->id;
+            if(!isset($client->company_id)){
+                $client->company_id = Auth::user()->company->id;
             }
         });
     }

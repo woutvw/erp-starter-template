@@ -22,6 +22,9 @@ export function useAuth(): AuthContextType {
     return context;
 }
 
+const clientId = '0198ffc1-c7aa-73fe-9f1c-4db9add1676e';
+const clientSecret = 'IonaJCbR4vyG1LMQWp61bdS577m3gBKpSwqpFdhv';
+
 export function AuthProvider({ children }: {children: ReactNode}){
     const [ accessToken, setAccessToken ] = useState(localStorage.getItem('access_token'));
     const [ refreshToken, setRefreshToken ] = useState(localStorage.getItem('refresh_token'));
@@ -42,13 +45,20 @@ export function AuthProvider({ children }: {children: ReactNode}){
         const refreshInterceptor = api.interceptors.response.use((response) => response, async (error) => {
             const originalRequest = error.config;
 
-            if(error.response.status === 401){
+            if(error.response.status === 401 && error.response.data.error === 'test'){
+                if(error.response.data.message === 'Unauthenticated'){
+                    setAccessToken(null);
+                    setRefreshToken(null);
+
+                    localStorage.removeItem('access_token')
+                    localStorage.removeItem('refresh_token')
+                }
                 try{
                     const response = await api.post('/oauth/token',{
                             grant_type: 'refresh_token',
                             refresh_token: refreshToken,
-                            client_id: import.meta.env.VITE_OAUTH_CLIENT_ID,
-                            client_secret: import.meta.env.VITE_OAUTH_CLIENT_SECRET,
+                            client_id: clientId,
+                            client_secret: clientSecret,
                             scope: ''
                         })
 
@@ -78,8 +88,8 @@ export function AuthProvider({ children }: {children: ReactNode}){
             try{
                 const response = await api.post('/oauth/token',{
                         grant_type: 'password',
-                        client_id: import.meta.env.VITE_OAUTH_CLIENT_ID,
-                        client_secret: import.meta.env.VITE_OAUTH_CLIENT_SECRET,
+                        client_id: clientId,
+                        client_secret: clientSecret,
                         username: email,
                         password: password,
                         scope: ''
