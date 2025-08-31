@@ -17,7 +17,7 @@ export default function SupplierList() {
             <div className="breadcrumbs text-sm">
                 <ul>
                     <li><Link to="/">{t('Home')}</Link></li>
-                    <li>{t('Clients')}</li>
+                    <li>{t('Suppliers')}</li>
                 </ul>
             </div>
             <DataTable uri="api/suppliers" createLink="/supplier/create" createText="Create supplier" onDataUpdate={(suppliers) => setSuppliers(suppliers)}>

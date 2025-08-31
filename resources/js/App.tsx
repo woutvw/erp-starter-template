@@ -13,6 +13,7 @@ import ProductList from "./pages/products/Index";
 import ProductView from "./pages/products/View";
 import ProductCreate from "./pages/products/Create";
 import SupplierList from "./pages/suppliers/Index";
+import SupplierView from "./pages/suppliers/View";
 
 function ProtectedRoute({ children }: {children: JSX.Element}) {
     const { accessToken } = useAuth();
@@ -39,6 +40,7 @@ export default function App(){
                     <Route path="/clients/create" element={<ClientCreate/>}/>
                     <Route path="/clients/:id" element={<ClientView/>}/>
                     <Route path="/suppliers" element={<SupplierList/>}/>
+                    <Route path="/suppliers/:id" element={<SupplierView/>}/>
                     <Route path="/products" element={<ProductList/>}/>
                     <Route path="/products/create" element={<ProductCreate/>}/>
                     <Route path="/products/:id" element={<ProductView/>}/>

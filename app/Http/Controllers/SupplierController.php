@@ -14,4 +14,9 @@ class SupplierController extends Controller
 
         return SupplierResource::collection($suppliers->paginate(10));
     }
+
+    public function show(Supplier $supplier)
+    {
+        return new SupplierResource($supplier);
+    }
 }

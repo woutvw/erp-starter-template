@@ -1,35 +1,35 @@
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
-import Product from "../../types/product";
 import { useTranslation } from "react-i18next";
+import Supplier from "../../types/supplier";
 
-export default function ProductView(){
+export default function SupplierView(){
     const { id } = useParams();
-    const [ product, setProduct ] = useState<Product>();
+    const [ supplier, setSupplier ] = useState<Supplier>();
 
     const navigate = useNavigate();
     const {t} = useTranslation();
 
     useEffect(() => {
-        api.get('api/products/'+id)
+        api.get('api/suppliers/'+id)
             .then(response => {
-                setProduct(response.data.data);
+                setSupplier(response.data.data);
             })
             .catch(err => {
                 navigate(-1)
             })
     },[]);
 
-    if(!product) return <p>Loading</p>
+    if(!supplier) return <p>Loading</p>
 
     return (
         <>
             <div className="breadcrumbs text-sm">
                 <ul>
                     <li><Link to="/">{t('Home')}</Link></li>
-                    <li><Link to="/suppliers">{t('Products')}</Link></li>
-                    <li>{product.sku}</li>
+                    <li><Link to="/suppliers">{t('Suppliers')}</Link></li>
+                    <li>{supplier.name}</li>
                 </ul>
             </div>
         </>
