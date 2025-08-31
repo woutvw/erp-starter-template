@@ -80,7 +80,7 @@ export default function ClientList() {
             <div className="flex justify-end">
                 <div className="join mt-2">
                     <button className="join-item btn" disabled={currentPage === 1} onClick={() => fetchClients(currentPage - 1)}>«</button>
-                    <button className="join-item btn">Page {currentPage}</button>
+                    <button className="join-item btn">{t('Page')} {currentPage}</button>
                     <button className="join-item btn" disabled={currentPage === lastPage} onClick={() => fetchClients(currentPage + 1)}>»</button>
                 </div>
             </div>

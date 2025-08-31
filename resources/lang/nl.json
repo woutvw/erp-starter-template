@@ -3,6 +3,7 @@
     "Clients": "Klanten",
     "Orders": "Bestellingen",
     "Stock": "Stock",
+    "Page": "Pagina",
     "Create": "Aanmaken",
     "Save": "Opslaan",
     "Create client": "Klant aanmaken",
@@ -12,5 +13,11 @@
     "Address": "Adres",
     "City": "Stad",
     "Postal code": "Postcode",
-    "VAT": "BTW"
+    "VAT": "BTW",
+    "Products": "Producten",
+    "Add product": "Product toevoegen",
+    "SKU": "Stock nr",
+    "Supplier": "Leverancier",
+    "Price": "Prijs",
+    "Quantity": "Aantal"
 }
