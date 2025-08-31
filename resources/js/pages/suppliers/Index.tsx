@@ -20,7 +20,7 @@ export default function SupplierList() {
                     <li>{t('Suppliers')}</li>
                 </ul>
             </div>
-            <DataTable uri="api/suppliers" createLink="/supplier/create" createText="Create supplier" onDataUpdate={(suppliers) => setSuppliers(suppliers)}>
+            <DataTable uri="api/suppliers" createLink="/supplier/create" createText="Add supplier" onDataUpdate={(suppliers) => setSuppliers(suppliers)}>
                 <thead>
                     <tr>
                         <th>{t('Name')}</th>

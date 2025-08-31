@@ -2,6 +2,7 @@
     "Home": "Home",
     "Clients": "Klanten",
     "Orders": "Bestellingen",
+    "Suppliers": "Leveranciers",
     "Stock": "Stock",
     "Page": "Pagina",
     "Search ...": "Zoeken ...",
@@ -20,5 +21,6 @@
     "SKU": "Stock nr",
     "Supplier": "Leverancier",
     "Price": "Prijs",
-    "Quantity": "Aantal"
+    "Quantity": "Aantal",
+    "Add supplier": "Leverancier toevoegen"
 }
