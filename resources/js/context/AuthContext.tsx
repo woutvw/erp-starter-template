@@ -45,14 +45,7 @@ export function AuthProvider({ children }: {children: ReactNode}){
         const refreshInterceptor = api.interceptors.response.use((response) => response, async (error) => {
             const originalRequest = error.config;
 
-            if(error.response.status === 401 && error.response.data.error === 'test'){
-                if(error.response.data.message === 'Unauthenticated'){
-                    setAccessToken(null);
-                    setRefreshToken(null);
-
-                    localStorage.removeItem('access_token')
-                    localStorage.removeItem('refresh_token')
-                }
+            if(error.response.status === 401 && error.response.data.message === 'Unauthenticated.'){
                 try{
                     const response = await api.post('/oauth/token',{
                             grant_type: 'refresh_token',
@@ -75,6 +68,13 @@ export function AuthProvider({ children }: {children: ReactNode}){
                 }catch(e){
                     console.error(e)
                 }
+            }
+            if(error.response.status === 401 && error.config.url === '/oauth/token'){
+                setAccessToken(null);
+                setRefreshToken(null);
+
+                localStorage.removeItem('access_token')
+                localStorage.removeItem('refresh_token')
             }
         })
 
