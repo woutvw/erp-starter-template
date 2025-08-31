@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import api from "../../api/axios";
+import EntitySelect from "../../components/EntitySelect";
 
 export default function ProductCreate(){
     const [sku, setSku] = useState('');
     const [name, setName] = useState('');
-    const [supplier, setSupplier] = useState('');
+    const [supplier, setSupplier] = useState<number|undefined>();
     const [descripiton, setDescription] = useState('');
     const [salePrice, setSalePrice] = useState(0);
     const [purchasePrice, setPurchasePrice] = useState(0);
@@ -53,7 +54,7 @@ export default function ProductCreate(){
                 </fieldset>
                 <fieldset className="fieldset">
                     <legend className="fieldset-legend">{t('Supplier')}*</legend>
-                    <input value={supplier} onChange={e => setSupplier(e.target.value)} className="input focus:outline-none w-full"/>
+                    <EntitySelect label="Select a supplier" value={supplier} onChange={e => setSupplier(Number(e.target.value))}/>
                 </fieldset>
                 <fieldset className="fieldset">
                     <legend className="fieldset-legend">{t('Description')}</legend>
