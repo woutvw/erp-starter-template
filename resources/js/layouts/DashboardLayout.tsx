@@ -34,9 +34,9 @@ export default function DashboardLayout() {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/stock">
+                            <Link to="/products">
                                 <Icon name="warehouse" className="w-8 h-8"/>
-                                {t('Stock')}
+                                {t('Products')}
                             </Link>
                         </li>
                     </ul>

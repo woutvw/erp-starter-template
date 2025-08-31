@@ -9,6 +9,7 @@ import { useAuth } from "./context/AuthContext";
 import ClientList from "./pages/clients/Index";
 import ClientCreate from "./pages/clients/Create";
 import ClientView from "./pages/clients/View";
+import ProductList from "./pages/products/Index";
 
 function ProtectedRoute({ children }: {children: JSX.Element}) {
     const { accessToken } = useAuth();
@@ -34,8 +35,8 @@ export default function App(){
                     <Route path="/clients" element={<ClientList/>}/>
                     <Route path="/clients/create" element={<ClientCreate/>}/>
                     <Route path="/clients/:id" element={<ClientView/>}/>
+                    <Route path="/products" element={<ProductList/>}/>
                     <Route path="/orders" element={<p>Orders</p>}/>
-                    <Route path="/stock" element={<p>Stock</p>}/>
                 </Route>
             </Routes>
         </Router>
