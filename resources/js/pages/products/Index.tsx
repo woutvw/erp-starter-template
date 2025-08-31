@@ -22,7 +22,7 @@ export default function ProductList() {
                     <li>{t('Products')}</li>
                 </ul>
             </div>
-            <DataTable uri="api/products" createLink="products/create" createText="Add product" onDataUpdate={(products) => setProducts(products)}>
+            <DataTable uri="api/products" createLink="/products/create" createText="Add product" onDataUpdate={(products) => setProducts(products)}>
                 <thead>
                         <tr>
                             <th>{t('SKU')}</th>
@@ -35,7 +35,7 @@ export default function ProductList() {
                     </thead>
                     <tbody>
                         {products.map(product => (
-                            <tr key={product.id} onClick={() => { navigate('/product/' + product.id) }} className="hover:bg-base-300 cursor-pointer">
+                            <tr key={product.id} onClick={() => { navigate('/products/' + product.id) }} className="hover:bg-base-300 cursor-pointer">
                                 <td>{product.sku}</td>
                                 <td>{product.name}</td>
                                 <td>{product.supplier.name}</td>
