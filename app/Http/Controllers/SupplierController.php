@@ -8,9 +8,13 @@ use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $suppliers = Supplier::orderBy('name');
+
+        if ($search = $request->search) {
+            $suppliers->where('name', 'LIKE', '%' . $search . '%');
+        }
 
         return SupplierResource::collection($suppliers->paginate(10));
     }
