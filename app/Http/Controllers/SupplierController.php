@@ -38,4 +38,11 @@ class SupplierController extends Controller
 
         return new SupplierResource($supplier);
     }
+
+    public function delete(Supplier $supplier)
+    {
+        $supplier->delete();
+
+        return response()->noContent();
+    }
 }
