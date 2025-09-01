@@ -91,6 +91,8 @@ describe('Suppliers view endpoint', function () {
         $this->getJson("/api/suppliers/{$supplier->id}")
             ->assertUnauthorized();
     });
+
+    //TODO: test if it is possible to view suppliers from different companies
 });
 
 describe('Suppliers edit endpoint', function(){
@@ -140,6 +142,8 @@ describe('Suppliers edit endpoint', function(){
         $this->getJson("/api/suppliers/{$supplier->id}")
             ->assertUnauthorized();
     });
+
+    //TODO: test if it is possible to edit suppliers from different companies
 });
 
 describe('Suppliers delete', function(){
@@ -158,5 +162,7 @@ describe('Suppliers delete', function(){
         $this->deleteJson("/api/suppliers/{$supplier->id}")
             ->assertUnauthorized();
     });
+
+    //TODO: test if it is possible to delete suppliers from different companies
 });
 

@@ -37,4 +37,18 @@ class ProductController extends Controller
 
         return new ProductResource($product);
     }
+
+    public function update(Product $product, StoreProductRequest $request)
+    {
+        $product->update($request->validated());
+
+        return new ProductResource($product);
+    }
+
+    public function delete(Product $product)
+    {
+        $product->delete();
+
+        return response()->noContent();
+    }
 }
