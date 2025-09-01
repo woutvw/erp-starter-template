@@ -11,7 +11,6 @@ export default function SupplierList() {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
-
     return (
         <>
             <div className="breadcrumbs text-sm">
@@ -20,19 +19,22 @@ export default function SupplierList() {
                     <li>{t('Suppliers')}</li>
                 </ul>
             </div>
-            <DataTable uri="api/suppliers" createLink="/supplier/create" createText="Add supplier" onDataUpdate={(suppliers) => setSuppliers(suppliers)}>
+            <DataTable uri="api/suppliers" createLink="/suppliers/create" createText="Add supplier" onDataUpdate={(suppliers) => setSuppliers(suppliers)}>
                 <thead>
                     <tr>
                         <th>{t('Name')}</th>
-                        <th></th>
+                        <th className="w-20"></th>
                     </tr>
                 </thead>
                 <tbody>
                     {suppliers.map(supplier => (
-                        <tr key={supplier.id} onClick={() => { navigate('/suppliers/' + supplier.id) }} className="hover:bg-base-300 cursor-pointer">
+                        <tr key={supplier.id} onClick={(e) => { console.log(e); navigate('/suppliers/' + supplier.id) }} className="hover:bg-base-300 cursor-pointer">
                             <td>{supplier.name}</td>
-                            <td>
-                                <button className="hover:text-error">
+                            <td className="flex justify-center">
+                                <Link onClick={e => {e.stopPropagation()}} to={'/suppliers/'+supplier.id+'/edit'} className="hover:text-primary">
+                                    <Icon name="pencil" className="w-5"/>
+                                </Link>
+                                <button onClick={e => {e.stopPropagation()}} className="hover:text-error">
                                     <Icon name="bin" className="w-5"/>
                                 </button>
                             </td>

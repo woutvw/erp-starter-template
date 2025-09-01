@@ -12,7 +12,9 @@ Route::middleware(['auth:api'])->group(function(){
     Route::get('/clients/{client}', [ClientController::class, 'show']);
 
     Route::get('/suppliers',[SupplierController::class, 'index']);
+    Route::post('/suppliers',[SupplierController::class, 'store']);
     Route::get('/suppliers/{supplier}',[SupplierController::class, 'show']);
+    Route::put('/suppliers/{supplier}',[SupplierController::class, 'update']);
 
     Route::get('/products',[ProductController::class, 'index']);
     Route::post('/products',[ProductController::class, 'store']);

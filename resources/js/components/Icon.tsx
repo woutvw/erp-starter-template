@@ -1,6 +1,7 @@
 import Bin from "./icons/Bin";
 import ClientsIcon from "./icons/Clients";
 import HomeIcon from "./icons/Home";
+import PencilIcon from "./icons/Pencil";
 import ReceiptIcon from "./icons/Receipt";
 import SearchIcon from "./icons/Search";
 import Warehouse from "./icons/Warehouse";
@@ -14,6 +15,7 @@ export default function Icon({name, className = ''}: {name: string, className?: 
         case 'search': return <div className={className}><SearchIcon/></div>;
         case 'clients': return <div className={className}><ClientsIcon/></div>;
         case 'receipt': return <div className={className}><ReceiptIcon/></div>;
+        case 'pencil': return <div className={className}><PencilIcon/></div>;
     }
     return <></>
 }
