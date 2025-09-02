@@ -28,6 +28,8 @@ class OrderController extends Controller
             ]);
         }
 
+        // TODO: calculate total
+
         return new OrderResource($order);
     }
 
@@ -40,7 +42,17 @@ class OrderController extends Controller
     {
         $order->update($request->validated());
 
-        // TODO: update products
+        $products = $request->products;
+        $updatedProducts = [];
+        foreach($products as $product){
+            $updatedProducts[$product['product_id']] = [
+                'quantity' => $product['quantity'],
+                'price' => $product['price']
+            ];
+        }
+        $order->products()->sync($updatedProducts);
+
+        // TODO: calculate total
 
         return new OrderResource($order);
     }

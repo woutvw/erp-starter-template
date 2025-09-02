@@ -20,6 +20,7 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
+            'company_id' => 1,
             'client_id' => Client::factory(),
             'status' => fake()->randomElement(['pending', 'paid', 'shipped', 'cancelled']),
             'total_price' => 0

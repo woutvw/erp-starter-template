@@ -113,7 +113,7 @@ describe('Order view endpoint', function () {
         $this->getJson("/api/orders/{$order->id}")
             ->assertOk()
             ->assertJsonPath('data.client_id', $order->client->id)
-            ->assertJsonCount(2, 'data.products');
+            ->assertJsonCount($order->products->count(), 'data.products');
     });
 
     it('returns 404 if order does not exist', function () {
@@ -144,110 +144,108 @@ describe('Order view endpoint', function () {
     });
 });
 
-// describe('Client edit endpoint', function () {
-//     it('updates a client if all data is provided', function () {
-//         Passport::actingAs(User::factory()->create());
+describe('Order edit endpoint', function () {
+    it('updates an order if all data is provided', function () {
+        Passport::actingAs(User::factory()->create());
 
-//         $client = Client::factory()->create();
-//         $newData = [
-//             'name' => fake()->name(),
-//             'email' => fake()->email(),
-//             'phone' => fake()->phoneNumber(),
-//             'address' => fake()->address(),
-//             'city' => fake()->city(),
-//             'postal_code' => fake()->postcode(),
-//             'country' => fake()->country(),
-//             'vat' => fake()->bothify('BE####.###.###'),
-//         ];
+        $order = Order::factory()->create();
+        $products = Product::factory()
+            ->count(2)
+            ->create();
 
-//         $this->putJson("/api/clients/{$client->id}", $newData)
-//             ->assertOk()
-//             ->assertJsonFragment($newData);
+        $newData = [
+            'client_id' => $order->client->id,
+            'products' => [
+                [
+                    'product_id' => $products[0]->id,
+                    'quantity' => 2,
+                    'price' => $products[0]->sale_price
+                ],
+                [
+                    'product_id' => $products[1]->id,
+                    'quantity' => 5,
+                    'price' => $products[1]->sale_price
+                ],
+            ]
+        ];
 
-//         $this->assertDatabaseHas('clients', [
-//             'id' => $client->id,
-//             'name' => $newData['name'],
-//             'email' => $newData['email'],
-//             'phone' => $newData['phone'],
-//             'address' => $newData['address'],
-//             'city' => $newData['city'],
-//             'postal_code' => $newData['postal_code'],
-//             'country' => $newData['country'],
-//             'vat' => $newData['vat'],
-//         ]);
-//     });
+        $this->putJson("/api/orders/{$order->id}", $newData)
+            ->assertOk()
+            ->assertJsonPath('data.client_id', $order->client->id)
+            ->assertJsonCount(2, 'data.products');
 
-//     it('returns 404 if product does not exist', function () {
-//         Passport::actingAs(User::factory()->create());
+        // TODO: check total
+    });
 
-//         $this->putJson("/api/clients/999999", [
-//                 'name' => 'Test client',
-//             ])
-//             ->assertNotFound();
-//     });
+    it('returns 404 if product does not exist', function () {
+        Passport::actingAs(User::factory()->create());
 
-//     it('returns 404 if product is from different company', function () {
-//         Passport::actingAs(User::factory()->create());
+        $this->putJson("/api/orders/999999", [])
+            ->assertNotFound();
+    });
 
-//         $client = Client::factory()
-//             ->state([
-//                 'company_id' => 0
-//             ])
-//             ->create();
+    it('returns 404 if product is from different company', function () {
+        Passport::actingAs(User::factory()->create());
 
-//         $this->putJson("/api/clients/{$client->id}")
-//             ->assertNotFound();
-//     });
+        $order = Order::factory()
+            ->state([
+                'company_id' => 0
+            ])
+            ->create();
 
-//     it('fails if data is missing', function () {
-//         Passport::actingAs(User::factory()->create());
+        $this->putJson("/api/orders/{$order->id}")
+            ->assertNotFound();
+    });
 
-//         $client = Client::factory()->create();
+    it('fails if data is missing', function () {
+        Passport::actingAs(User::factory()->create());
 
-//         $this->putJson("/api/clients/{$client->id}", [])
-//             ->assertStatus(422)
-//             ->assertJsonValidationErrors(['name']);
-//     });
+        $order = Order::factory()->create();
 
-//     it('rejects unauthenticated users', function () {
-//         $client = Client::factory()->create();
+        $this->putJson("/api/orders/{$order->id}", [])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['client_id','products']);
+    });
 
-//         $this->getJson("/api/clients/{$client->id}")
-//             ->assertUnauthorized();
-//     });
-// });
+    it('rejects unauthenticated users', function () {
+        $order = Order::factory()->state(['company_id'=>0])->create();
 
-// describe('Client delete endpoint', function () {
-//     it('deletes a client when authenticate', function () {
-//         Passport::actingAs(User::factory()->create());
+        $this->getJson("/api/orders/{$order->id}")
+            ->assertUnauthorized();
+    });
+});
 
-//         $client = Client::factory()->create();
+describe('Order delete endpoint', function () {
+    it('deletes an order when authenticate', function () {
+        Passport::actingAs(User::factory()->create());
 
-//         $this->deleteJson("/api/clients/{$client->id}")
-//             ->assertStatus(204);
+        $order = Order::factory()->create();
 
-//         $this->assertDatabaseMissing('clients', [
-//             'id' => $client->id
-//         ]);
-//     });
+        $this->deleteJson("/api/orders/{$order->id}")
+            ->assertStatus(204);
 
-//     it('rejects unauthenticated users', function () {
-//         $client = Client::factory()->create();
+        $this->assertDatabaseMissing('orders', [
+            'id' => $order->id
+        ]);
+    });
 
-//         $this->deleteJson("/api/clients/{$client->id}")
-//             ->assertUnauthorized();
-//     });
+    it('rejects unauthenticated users', function () {
+        $order = Order::factory()->create();
 
-//     it('returns 404 if client is from different company', function () {
-//         Passport::actingAs(User::factory()->create());
+        $this->deleteJson("/api/orders/{$order->id}")
+            ->assertUnauthorized();
+    });
 
-//         $client = Client::factory()
-//             ->state([
-//                 'company_id' => 0
-//             ])
-//             ->create();
+    it('returns 404 if order is from different company', function () {
+        Passport::actingAs(User::factory()->create());
 
-//         $this->deleteJson("/api/clients/{$client->id}")
-//             ->assertNotFound();
-//     });
-// });
+        $order = Order::factory()
+            ->state([
+                'company_id' => 0
+            ])
+            ->create();
+
+        $this->deleteJson("/api/orders/{$order->id}")
+            ->assertNotFound();
+    });
+});
