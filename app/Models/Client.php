@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Models\Scopes\CompanyScope;
+use App\Models\Traits\BelongsToCompany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Client extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToCompany;
 
     protected $fillable = [
         'name',
@@ -21,15 +22,4 @@ class Client extends Model
         'country',
         'vat',
     ];
-
-    protected static function booted()
-    {
-        static::addGlobalScope(new CompanyScope);
-
-        static::creating(function($client){
-            if(!isset($client->company_id)){
-                $client->company_id = Auth::user()->company->id;
-            }
-        });
-    }
 }
