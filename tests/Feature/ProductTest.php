@@ -19,9 +19,33 @@ describe('Products list endpoint', function () {
             ->assertJsonStructure([
                 'data',
                 'meta' => [
-                    'current_page', 'from', 'last_page', 'links', 'path', 'per_page', 'to', 'total'
+                    'current_page',
+                    'from',
+                    'last_page',
+                    'links',
+                    'path',
+                    'per_page',
+                    'to',
+                    'total'
                 ]
             ])
+            ->assertJsonCount(5, 'data');
+    });
+
+    it('returns only own products', function () {
+        Passport::actingAs(User::factory()->create());
+
+        Product::factory()
+            ->state([
+                'company_id' => 0
+            ])
+            ->count(5)
+            ->create();
+        Product::factory()
+            ->count(5)
+            ->create();
+
+        $this->getJson('/api/products')
             ->assertJsonCount(5, 'data');
     });
 
@@ -32,7 +56,7 @@ describe('Products list endpoint', function () {
 });
 
 describe('Product create endpoint', function () {
-    it('saves a product if all data is provided', function(){
+    it('saves a product if all data is provided', function () {
         Passport::actingAs(User::factory()->create());
 
         $data = [
@@ -45,7 +69,7 @@ describe('Product create endpoint', function () {
             'quantity' => fake()->numberBetween(0, 50)
         ];
 
-        $this->postJson('/api/products',$data)
+        $this->postJson('/api/products', $data)
             ->assertCreated()
             ->assertJsonFragment($data);
 
@@ -57,7 +81,7 @@ describe('Product create endpoint', function () {
 
         $this->postJson('/api/products', [])
             ->assertStatus(422)
-            ->assertJsonValidationErrors(['supplier_id','sku','name','sale_price','purchase_price','quantity']);
+            ->assertJsonValidationErrors(['supplier_id', 'sku', 'name', 'sale_price', 'purchase_price', 'quantity']);
     });
 
     it('rejects unauthenticated users', function () {
@@ -92,18 +116,29 @@ describe('Product view endpoint', function () {
             ->assertNotFound();
     });
 
+    it('returns 404 if product is from different company', function () {
+        Passport::actingAs(User::factory()->create());
+
+        $product = Product::factory()
+            ->state([
+                'company_id' => 0
+            ])
+            ->create();
+
+        $this->getJson("/api/products/{$product->id}")
+            ->assertNotFound();
+    });
+
     it('rejects unauthenticated users', function () {
         $product = Product::factory()->create();
 
         $this->getJson("/api/products/{$product->id}")
             ->assertUnauthorized();
     });
-
-    //TODO: test if it is possible to view products from different companies
 });
 
 describe('Product edit endpoint', function () {
-    it('updates a product if all data is provided', function(){
+    it('updates a product if all data is provided', function () {
         Passport::actingAs(User::factory()->create());
 
         $product = Product::factory()->create();
@@ -117,7 +152,7 @@ describe('Product edit endpoint', function () {
             'quantity' => fake()->numberBetween(0, 50)
         ];
 
-        $this->putJson("/api/products/{$product->id}",$newData)
+        $this->putJson("/api/products/{$product->id}", $newData)
             ->assertOk()
             ->assertJsonFragment($newData);
 
@@ -135,9 +170,22 @@ describe('Product edit endpoint', function () {
     it('returns 404 if product does not exist', function () {
         Passport::actingAs(User::factory()->create());
 
-        $this->putJson("/api/products/999999",[
-                'name' => 'Test supplier',
+        $this->putJson("/api/products/999999", [
+            'name' => 'Test supplier',
+        ])
+            ->assertNotFound();
+    });
+
+    it('returns 404 if product is from different company', function () {
+        Passport::actingAs(User::factory()->create());
+
+        $product = Product::factory()
+            ->state([
+                'company_id' => 0
             ])
+            ->create();
+
+        $this->putJson("/api/products/{$product->id}")
             ->assertNotFound();
     });
 
@@ -146,9 +194,9 @@ describe('Product edit endpoint', function () {
 
         $product = Product::factory()->create();
 
-        $this->putJson("/api/products/{$product->id}",[])
+        $this->putJson("/api/products/{$product->id}", [])
             ->assertStatus(422)
-            ->assertJsonValidationErrors(['supplier_id','sku','name','sale_price','purchase_price','quantity']);
+            ->assertJsonValidationErrors(['supplier_id', 'sku', 'name', 'sale_price', 'purchase_price', 'quantity']);
     });
 
     it('rejects unauthenticated users', function () {
@@ -157,12 +205,10 @@ describe('Product edit endpoint', function () {
         $this->getJson("/api/products/{$supplier->id}")
             ->assertUnauthorized();
     });
-
-    //TODO: test if it is possible to edit products from different companies
 });
 
 describe('Product delete endpoint', function () {
-    it('deletes a product when authenticate', function(){
+    it('deletes a product when authenticate', function () {
         Passport::actingAs(User::factory()->create());
 
         $product = Product::factory()->create();
@@ -178,5 +224,16 @@ describe('Product delete endpoint', function () {
             ->assertUnauthorized();
     });
 
-    //TODO: test if it is possible to delete products from different companies
+    it('returns 404 if product is from different company', function () {
+        Passport::actingAs(User::factory()->create());
+
+        $product = Product::factory()
+            ->state([
+                'company_id' => 0
+            ])
+            ->create();
+
+        $this->deleteJson("/api/products/{$product->id}")
+            ->assertNotFound();
+    });
 });
