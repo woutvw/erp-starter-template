@@ -33,7 +33,7 @@ describe('Order list endpoint', function () {
             ->assertJsonCount(5, 'data');
     });
 
-    it('returns only own clients', function () {
+    it('returns only own orders', function () {
         Passport::actingAs(User::factory()->create());
 
         Order::factory()
