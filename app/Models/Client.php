@@ -22,4 +22,9 @@ class Client extends Model
         'country',
         'vat',
     ];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
