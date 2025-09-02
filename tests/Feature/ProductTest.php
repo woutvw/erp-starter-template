@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 pest()->use(RefreshDatabase::class);
 
-describe('Products list endpoint', function () {
+describe('Product list endpoint', function () {
     it('returns products', function () {
         Passport::actingAs(User::factory()->create());
 

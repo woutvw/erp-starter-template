@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 pest()->use(RefreshDatabase::class);
 
-describe('Suppliers list endpoint', function () {
+describe('Supplier list endpoint', function () {
     it('returns suppliers', function () {
         Passport::actingAs(User::factory()->create());
 
@@ -48,7 +48,7 @@ describe('Suppliers list endpoint', function () {
     });
 });
 
-describe('Suppliers create endpoint', function () {
+describe('Supplier create endpoint', function () {
     it('saves a supplier if all data is provided', function(){
         Passport::actingAs(User::factory()->create());
 
@@ -82,7 +82,7 @@ describe('Suppliers create endpoint', function () {
     });
 });
 
-describe('Suppliers view endpoint', function () {
+describe('Supplier view endpoint', function () {
     it('returns a supplier when authenticated', function () {
         Passport::actingAs(User::factory()->create());
 
@@ -122,7 +122,7 @@ describe('Suppliers view endpoint', function () {
     });
 });
 
-describe('Suppliers edit endpoint', function(){
+describe('Supplier edit endpoint', function(){
     it('updates a supplier if all data is provided', function(){
         Passport::actingAs(User::factory()->create());
 
@@ -184,7 +184,7 @@ describe('Suppliers edit endpoint', function(){
     });
 });
 
-describe('Suppliers delete', function(){
+describe('Supplier delete endpoint', function(){
     it('deletes a supplier when authenticate', function(){
         Passport::actingAs(User::factory()->create());
 

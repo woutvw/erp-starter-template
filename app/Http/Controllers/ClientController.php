@@ -31,4 +31,18 @@ class ClientController extends Controller
 
         return new ClientResource($client);
     }
+
+    public function update(Client $client, storeClientRequest $request)
+    {
+        $client->update($request->validated());
+
+        return new ClientResource($client);
+    }
+
+    public function delete(Client $client)
+    {
+        $client->delete();
+
+        return response()->noContent();
+    }
 }

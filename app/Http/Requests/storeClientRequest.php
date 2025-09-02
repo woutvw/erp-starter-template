@@ -28,6 +28,7 @@ class storeClientRequest extends FormRequest
             'address' => 'nullable',
             'city' => 'nullable',
             'postal_code' => 'nullable',
+            'country' => 'nullable',
             'vat' => 'nullable',
         ];
     }

@@ -10,6 +10,8 @@ Route::middleware(['auth:api'])->group(function(){
     Route::get('/clients', [ClientController::class, 'index']);
     Route::post('/clients', [ClientController::class, 'store']);
     Route::get('/clients/{client}', [ClientController::class, 'show']);
+    Route::put('/clients/{client}', [ClientController::class, 'update']);
+    Route::delete('/clients/{client}', [ClientController::class, 'delete']);
 
     Route::get('/suppliers',[SupplierController::class, 'index']);
     Route::post('/suppliers',[SupplierController::class, 'store']);
