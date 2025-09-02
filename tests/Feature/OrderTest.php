@@ -65,6 +65,10 @@ describe('Client create endpoint', function () {
             ->count(2)
             ->create();
 
+        $totalPrice = $products->sum(function($product){
+            return 2 * $product->sale_price;
+        });
+
         $data = [
             'client_id' => $client->id,
             'products' => [
@@ -75,7 +79,7 @@ describe('Client create endpoint', function () {
                 ],
                 [
                     'product_id' => $products[1]->id,
-                    'quantity' => 5,
+                    'quantity' => 2,
                     'price' => $products[1]->sale_price
                 ],
             ]
@@ -84,10 +88,10 @@ describe('Client create endpoint', function () {
         $this->postJson('/api/orders', $data)
             ->assertCreated()
             ->assertJsonPath('data.client_id', $client->id)
+            ->assertJsonPath('data.total_price', $totalPrice)
             ->assertJsonCount(2, 'data.products');
 
         // TODO: check if the product format is correct
-        // TODO: check the total price
     });
 
     it('fails if data is missing', function () {
@@ -153,6 +157,10 @@ describe('Order edit endpoint', function () {
             ->count(2)
             ->create();
 
+        $totalPrice = $products->sum(function($product){
+            return 2 * $product->sale_price;
+        });
+
         $newData = [
             'client_id' => $order->client->id,
             'products' => [
@@ -163,7 +171,7 @@ describe('Order edit endpoint', function () {
                 ],
                 [
                     'product_id' => $products[1]->id,
-                    'quantity' => 5,
+                    'quantity' => 2,
                     'price' => $products[1]->sale_price
                 ],
             ]
@@ -172,6 +180,7 @@ describe('Order edit endpoint', function () {
         $this->putJson("/api/orders/{$order->id}", $newData)
             ->assertOk()
             ->assertJsonPath('data.client_id', $order->client->id)
+            ->assertJsonPath('data.total_price', $totalPrice)
             ->assertJsonCount(2, 'data.products');
 
         // TODO: check total

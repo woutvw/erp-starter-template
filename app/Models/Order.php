@@ -27,4 +27,18 @@ class Order extends Model
             ->withPivot('quantity', 'price')
             ->withTimestamps();
     }
+
+    public function refreshTotal()
+    {
+        $this->update([
+            'total_price' => $this->calculateTotal()
+        ]);
+    }
+
+    public function calculateTotal(): float
+    {
+        return $this->products->sum(function ($product) {
+            return $product->pivot->quantity * $product->pivot->price;
+        });
+    }
 }

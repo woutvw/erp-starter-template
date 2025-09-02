@@ -27,8 +27,7 @@ class OrderController extends Controller
                 'price' => $product['price']
             ]);
         }
-
-        // TODO: calculate total
+        $order->refreshTotal();
 
         return new OrderResource($order);
     }
@@ -51,6 +50,7 @@ class OrderController extends Controller
             ];
         }
         $order->products()->sync($updatedProducts);
+        $order->refreshTotal();
 
         // TODO: calculate total
 
