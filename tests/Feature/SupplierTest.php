@@ -24,6 +24,24 @@ describe('Suppliers list endpoint', function () {
             ->assertJsonCount(3, 'data');
     });
 
+    it('only returns own suppliers', function () {
+        Passport::actingAs(User::factory()->create());
+
+        Supplier::factory()
+            ->state([
+                'company_id' => 0
+            ])
+            ->count(3)
+            ->create();
+
+        Supplier::factory()
+            ->count(3)
+            ->create();
+
+        $this->getJson('/api/suppliers')
+            ->assertJsonCount(3, 'data');
+    });
+
     it('Returns a 401 if you are not authenticated', function () {
         $this->getJson('/api/suppliers')
             ->assertUnauthorized();
@@ -85,14 +103,23 @@ describe('Suppliers view endpoint', function () {
             ->assertNotFound();
     });
 
+    it('returns 404 if supplier is from different company', function () {
+        $otherSupplier = Supplier::factory()
+            ->state([
+                'company_id' => 0
+            ])
+            ->create();
+
+        $this->getJson("/api/suppliers/{$otherSupplier->id}")
+            ->assertUnauthorized();
+    });
+
     it('rejects unauthenticated users', function () {
         $supplier = Supplier::factory()->create();
 
         $this->getJson("/api/suppliers/{$supplier->id}")
             ->assertUnauthorized();
     });
-
-    //TODO: test if it is possible to view suppliers from different companies
 });
 
 describe('Suppliers edit endpoint', function(){
@@ -125,6 +152,19 @@ describe('Suppliers edit endpoint', function(){
             ->assertNotFound();
     });
 
+    it('returns 404 if supplier is from different company', function () {
+        $otherSupplier = Supplier::factory()
+            ->state([
+                'company_id' => 0
+            ])
+            ->create();
+
+        $this->putJson("/api/suppliers/{$otherSupplier->id}",[
+                'name' => 'Test supplier',
+            ])
+            ->assertUnauthorized();
+    });
+
     it('fails if name is missing', function () {
         Passport::actingAs(User::factory()->create());
 
@@ -142,8 +182,6 @@ describe('Suppliers edit endpoint', function(){
         $this->getJson("/api/suppliers/{$supplier->id}")
             ->assertUnauthorized();
     });
-
-    //TODO: test if it is possible to edit suppliers from different companies
 });
 
 describe('Suppliers delete', function(){
@@ -156,13 +194,29 @@ describe('Suppliers delete', function(){
             ->assertStatus(204);
     });
 
+    it('returns 404 if supplier does not exist', function () {
+        Passport::actingAs(User::factory()->create());
+
+        $this->deleteJson("/api/suppliers/999999")
+            ->assertNotFound();
+    });
+
+    it('returns 404 if supplier is from different company', function () {
+        $otherSupplier = Supplier::factory()
+            ->state([
+                'company_id' => 0
+            ])
+            ->create();
+
+        $this->deleteJson("/api/suppliers/{$otherSupplier->id}")
+            ->assertUnauthorized();
+    });
+
     it('rejects unauthenticated users', function () {
         $supplier = Supplier::factory()->create();
 
         $this->deleteJson("/api/suppliers/{$supplier->id}")
             ->assertUnauthorized();
     });
-
-    //TODO: test if it is possible to delete suppliers from different companies
 });
 
