@@ -16,5 +16,13 @@ trait BelongsToCompany
                 $model->company_id = Auth::user()->company->id;
             }
         });
+
+        // Merge hidden fields dynamically
+        static::retrieved(function ($model) {
+            $model->hidden = array_merge(
+                $model->hidden ?? [],
+                ['company_id']
+            );
+        });
     }
 }
