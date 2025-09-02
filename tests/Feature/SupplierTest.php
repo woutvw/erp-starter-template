@@ -192,6 +192,10 @@ describe('Supplier delete endpoint', function(){
 
         $this->deleteJson("/api/suppliers/{$supplier->id}")
             ->assertStatus(204);
+
+        $this->assertDatabaseMissing('suppliers', [
+            'id' => $supplier->id
+        ]);
     });
 
     it('returns 404 if supplier does not exist', function () {

@@ -215,6 +215,10 @@ describe('Product delete endpoint', function () {
 
         $this->deleteJson("/api/products/{$product->id}")
             ->assertStatus(204);
+
+        $this->assertDatabaseMissing('products', [
+            'id' => $product->id
+        ]);
     });
 
     it('rejects unauthenticated users', function () {
