@@ -94,6 +94,10 @@ describe('Client create endpoint', function () {
         // TODO: check if the product format is correct
     });
 
+    it('updates product quantity when an order is placed', function (){
+
+    });
+
     it('fails if data is missing', function () {
         Passport::actingAs(User::factory()->create());
 
@@ -182,8 +186,10 @@ describe('Order edit endpoint', function () {
             ->assertJsonPath('data.client_id', $order->client->id)
             ->assertJsonPath('data.total_price', $totalPrice)
             ->assertJsonCount(2, 'data.products');
+    });
 
-        // TODO: check total
+    it('updates product quantity when an order is updated', function (){
+
     });
 
     it('returns 404 if product does not exist', function () {
@@ -236,6 +242,10 @@ describe('Order delete endpoint', function () {
         $this->assertDatabaseMissing('orders', [
             'id' => $order->id
         ]);
+    });
+
+    it('updates product quantity when an order removed', function (){
+
     });
 
     it('rejects unauthenticated users', function () {
