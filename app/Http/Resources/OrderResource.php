@@ -16,6 +16,7 @@ class OrderResource extends JsonResource
     {
         $order = parent::toArray($request);
 
+        $order['client'] = new ClientResource($this->client);
         $order['products'] = OrderProductResource::collection($this->products);
 
         return $order;

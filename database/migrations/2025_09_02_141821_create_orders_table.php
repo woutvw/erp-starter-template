@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Company::class);
             $table->foreignIdFor(Client::class);
-            $table->string('Status')->default('pending');
+            $table->string('status')->default('pending');
             $table->double('total_price', 15, 4)->default(0);
             $table->timestamps();
         });

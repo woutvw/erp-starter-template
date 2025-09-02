@@ -11,7 +11,7 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::orderBy('create_at');
+        $orders = Order::orderBy('created_at');
 
         return OrderResource::collection($orders->paginate(10));
     }
