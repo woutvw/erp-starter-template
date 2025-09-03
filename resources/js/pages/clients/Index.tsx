@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react"
-import { getClients } from "../../api/clientApi";
+import { useState } from "react"
 import Client from "../../types/client";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Icon from "../../components/Icon";
-import useDebounce from "../../hooks/useDebounce";
 import DataTable from "../../components/DataTable";
 
 export default function ClientList() {

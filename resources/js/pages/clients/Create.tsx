@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { createClient } from "../../api/clientApi";
 import { useTranslation } from "react-i18next";
+import api from "../../api/axios";
 
 export default function ClientCreate(){
     const [name, setName] = useState('');
@@ -15,13 +15,14 @@ export default function ClientCreate(){
     function submit(e: React.FormEvent){
         e.preventDefault();
 
-        createClient({
+        api.post('/api/clients',{
                 name: name,
-                email: email,
-                phone: phone,
-                address: address
+                    email: email,
+                    phone: phone,
+                    address: address
             })
-            .then((client) => {
+            .then((response) => {
+                const client = response.data.data;
                 navigate('/clients/'+client.id);
             })
     }

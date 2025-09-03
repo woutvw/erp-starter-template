@@ -1,7 +1,7 @@
-import { Link, redirect, useLoaderData, useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import Client from "../../types/client";
 import { useEffect, useState } from "react";
-import { getClient } from "../../api/clientApi";
+import api from "../../api/axios";
 
 export default function ClientView(){
     const { id } = useParams();
@@ -10,9 +10,9 @@ export default function ClientView(){
     const navigate = useNavigate();
 
     useEffect(() => {
-        getClient(Number(id))
-            .then(client => {
-                setClient(client);
+        api.get('/api/clients/'+id)
+            .then(response => {
+                setClient(response.data.data);
             })
             .catch(err => {
                 navigate(-1)

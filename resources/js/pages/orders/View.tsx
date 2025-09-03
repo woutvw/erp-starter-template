@@ -1,7 +1,5 @@
-import { Link, redirect, useLoaderData, useNavigate, useParams } from "react-router-dom"
-import Client from "../../types/client";
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
-import { getClient } from "../../api/clientApi";
 import api from "../../api/axios";
 import Order from "../../types/order";
 
