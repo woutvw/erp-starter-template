@@ -1,28 +1,28 @@
 import { useEffect, useState } from "react"
-import Supplier from "../types/supplier";
 import api from "../api/axios";
 
-interface EntitySelectProps {
+interface EntitySelectProps<T> {
     uri: string
     label: string
     value: number|undefined
-    onChange: React.ChangeEventHandler<HTMLSelectElement>
+    onChange: (entity: T) => void
 }
 
-export default function EntitySelect({uri, label, value, onChange}: EntitySelectProps){
-    const [ records, setRecords ] = useState<any[]>([]);
+export default function SearchableEntitySelect<T>({uri, label, value, onChange}: EntitySelectProps<T>){
+    const [ data, setData ] = useState<T[]>([]);
 
     useEffect(() => {
         api.get(uri)
             .then(response => {
-                setRecords(response.data.data);
+                const data = response.data.data;
+                setData(data);
             })
     },[])
 
     return (
         <select className="select focus:outline-none w-full" value={value} onChange={onChange}>
             <option disabled={true}>{label}</option>
-            {records.map(record => (
+            {data.map(record => (
                 <option key={record.id} value={record.id}>{record.name}</option>
             ))}
         </select>

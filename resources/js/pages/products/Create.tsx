@@ -54,7 +54,7 @@ export default function ProductCreate(){
                 </fieldset>
                 <fieldset className="fieldset">
                     <legend className="fieldset-legend">{t('Supplier')}*</legend>
-                    <EntitySelect label="Select a supplier" value={supplier} onChange={e => setSupplier(Number(e.target.value))}/>
+                    <EntitySelect uri="/api/suppliers" label="Select a supplier" value={supplier} onChange={e => setSupplier(Number(e.target.value))}/>
                 </fieldset>
                 <fieldset className="fieldset">
                     <legend className="fieldset-legend">{t('Description')}</legend>
