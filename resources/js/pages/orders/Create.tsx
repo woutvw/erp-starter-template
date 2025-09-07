@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import api from "../../api/axios";
-import SearchableEntitySelect from "../../components/SearchableEntitySelect";
 import Client from "../../types/client";
+import SearchableClientSelect from "../../components/SearchableClientSelect";
 
 export default function OrderCreate(){
     const [client, setClient] = useState<Client>()
-    const [clientId, setClientId] = useState(0);
 
     const navigate = useNavigate();
     const {t} = useTranslation();
@@ -36,7 +35,7 @@ export default function OrderCreate(){
             <form className="card bg-base-100 p-4" onSubmit={submit}>
                 <fieldset className="fieldset">
                     <legend className="fieldset-legend">{t('Name')}*</legend>
-                    <SearchableEntitySelect<Client> uri="/api/clients" label="Select a client" value={clientId} onChange={(client) => setClient(client)}/>
+                    <SearchableClientSelect client={client} onChange={(client) => setClient(client)}/>
                 </fieldset>
                 <div className="flex justify-end">
                     <button type="submit" className="btn btn-primary">{t('Save')}</button>
