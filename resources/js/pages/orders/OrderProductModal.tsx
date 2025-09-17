@@ -58,7 +58,7 @@ export default function OrderProductModal({onSaveProduct, onCloseModal, modalOpe
                 </fieldset>
                 <div className="modal-action">
                     <form method="dialog">
-                        <button className="btn mr-2">{t('Cancel')}</button>
+                        <button className="btn mr-2" onClick={handleCloseModal}>{t('Cancel')}</button>
                         <button className="btn btn-primary" onClick={handleSave}>{t('Add product')}</button>
                     </form>
                 </div>

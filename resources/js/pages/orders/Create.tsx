@@ -40,7 +40,7 @@ export default function OrderCreate(){
             </div>
             <form className="card bg-base-100 p-4" onSubmit={submit}>
                 <fieldset className="fieldset">
-                    <legend className="fieldset-legend">{t('Name')}*</legend>
+                    <legend className="fieldset-legend">{t('Client')}*</legend>
                     <SearchableClientSelect client={client} onChange={(client) => setClient(client)}/>
                 </fieldset>
                 <fieldset className="fieldset">
@@ -51,14 +51,16 @@ export default function OrderCreate(){
                                 <th>{t('Name')}</th>
                                 <th>{t('Price')}</th>
                                 <th>{t('Quantity')}</th>
+                                <th>{t('Total')}</th>
                             </tr>
                         </thead>
                         <tbody>
                             {products.map((product, idx) => (
                                 <tr key={idx}>
                                     <td>{product.name}</td>
-                                    <td>{product.price}</td>
+                                    <td>€ {product.price}</td>
                                     <td>{product.quantity}</td>
+                                    <td>€ {product.price * product.quantity}</td>
                                 </tr>
                             ))}
                         </tbody>

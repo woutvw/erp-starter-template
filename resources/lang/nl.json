@@ -1,5 +1,6 @@
 {
     "Home": "Home",
+    "Client": "Klant",
     "Clients": "Klanten",
     "Orders": "Bestellingen",
     "Suppliers": "Leveranciers",
@@ -22,5 +23,6 @@
     "Supplier": "Leverancier",
     "Price": "Prijs",
     "Quantity": "Aantal",
+    "Total": "Totaal",
     "Add supplier": "Leverancier toevoegen"
 }
