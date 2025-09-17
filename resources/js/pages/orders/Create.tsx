@@ -4,9 +4,14 @@ import { useTranslation } from "react-i18next";
 import api from "../../api/axios";
 import Client from "../../types/client";
 import SearchableClientSelect from "../../components/SearchableClientSelect";
+import OrderProduct from "../../types/orderProduct";
+import OrderProductModal from "./OrderProductModal";
 
 export default function OrderCreate(){
+    const [modalOpen, setModalOpen] = useState(false)
+
     const [client, setClient] = useState<Client>()
+    const [products, setProducts] = useState<OrderProduct[]>([]);
 
     const navigate = useNavigate();
     const {t} = useTranslation();
@@ -15,7 +20,8 @@ export default function OrderCreate(){
         e.preventDefault();
 
         api.post('api/orders', {
-                client_id: clientId,
+                client_id: client?.id,
+                products: products
             })
             .then(response => {
                 const order = response.data.data;
@@ -37,10 +43,33 @@ export default function OrderCreate(){
                     <legend className="fieldset-legend">{t('Name')}*</legend>
                     <SearchableClientSelect client={client} onChange={(client) => setClient(client)}/>
                 </fieldset>
+                <fieldset className="fieldset">
+                    <legend className="fieldset-legend">{t('Products')}*</legend>
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>{t('Name')}</th>
+                                <th>{t('Price')}</th>
+                                <th>{t('Quantity')}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {products.map((product, idx) => (
+                                <tr key={idx}>
+                                    <td>{product.name}</td>
+                                    <td>{product.price}</td>
+                                    <td>{product.quantity}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <button type="button" className="btn" onClick={() => setModalOpen(true)}>{t('Add product')}</button>
+                </fieldset>
                 <div className="flex justify-end">
                     <button type="submit" className="btn btn-primary">{t('Save')}</button>
                 </div>
             </form>
+            <OrderProductModal modalOpen={modalOpen} onCloseModal={() => setModalOpen(false)} onSaveProduct={product => setProducts([...products, product])}/>
         </>
     )
 }

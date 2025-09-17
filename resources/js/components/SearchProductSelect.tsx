@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react"
 import api from "../api/axios";
-import Client from "../types/client";
 import useDebounce from "../hooks/useDebounce";
+import Product from "../types/product";
 
-interface SearchableClientSelectProps {
-    client: Client|undefined
-    onChange: (client: Client) => void
+interface SearchableProductSelectProps {
+    product: Product|undefined
+    onChange: (product: Product) => void
 }
 
-export default function SearchableClientSelect({client, onChange}: SearchableClientSelectProps){
-    const [ clients, setClients ] = useState<Client[]>([]);
+export default function SearchProductSelect({product, onChange}: SearchableProductSelectProps){
+    const [ products, setProducts ] = useState<Product[]>([]);
 
     const [ search, setSeatch ] = useState('');
     const debouncedSearch = useDebounce(search, 400);
@@ -17,18 +17,18 @@ export default function SearchableClientSelect({client, onChange}: SearchableCli
     const [ open, setOpen ] = useState(false);
 
     useEffect(() => {
-        if(client) setSeatch(client.name);
-    },[client])
+        if(product) setSeatch(product.name);
+    },[product])
 
     useEffect(() => {
-        api.get('/api/clients', {
+        api.get('/api/products', {
             params: {
                 search: debouncedSearch
             }
         })
             .then(response => {
                 const data = response.data.data;
-                setClients(data);
+                setProducts(data);
             })
     },[debouncedSearch])
 
@@ -48,9 +48,9 @@ export default function SearchableClientSelect({client, onChange}: SearchableCli
     function Options(){
         return (
             <div className="rounded bg-white border absolute w-full mt-1 max-h-40 overflow-auto z-10">
-                {clients.map((client) => (
-                    <div key={client.id} className="p-2 hover:bg-base-200 cursor-pointer" onClick={() => onChange(client)}>
-                        <p>{client?.name}</p>
+                {products.map((product) => (
+                    <div key={product.id} className="p-2 hover:bg-base-200 cursor-pointer" onClick={() => onChange(product)}>
+                        <p>{product.name}</p>
                     </div>
                 ))}
             </div>
