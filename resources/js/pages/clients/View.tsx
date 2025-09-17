@@ -2,6 +2,7 @@ import { Link, useNavigate, useParams } from "react-router-dom"
 import Client from "../../types/client";
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
+import ClientCard from "../../components/ClientCard";
 
 export default function ClientView(){
     const { id } = useParams();
@@ -19,7 +20,7 @@ export default function ClientView(){
             })
     },[]);
 
-    if(!client) return <p>Loading</p>
+    // if(!client) return <p>Loading</p>
 
     return (
         <>
@@ -27,9 +28,10 @@ export default function ClientView(){
                 <ul>
                     <li><Link to="/">Home</Link></li>
                     <li><Link to="/clients">Clients</Link></li>
-                    <li>{client.name}</li>
+                    <li>{client?.name}</li>
                 </ul>
             </div>
+            <ClientCard client={client}/>
         </>
     )
 }

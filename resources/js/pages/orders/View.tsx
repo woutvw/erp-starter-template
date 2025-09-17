@@ -2,6 +2,7 @@ import { Link, useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
 import Order from "../../types/order";
+import ClientCard from "../../components/ClientCard";
 
 export default function OrderView(){
     const { id } = useParams();
@@ -10,7 +11,7 @@ export default function OrderView(){
     const navigate = useNavigate();
 
     useEffect(() => {
-        api.get('api/products/'+id)
+        api.get('api/orders/'+id)
             .then(response => {
                 setOrder(response.data.data);
             })
@@ -30,6 +31,7 @@ export default function OrderView(){
                     <li>{id}</li>
                 </ul>
             </div>
+            <ClientCard client={order.client}/>
         </>
     )
 }
