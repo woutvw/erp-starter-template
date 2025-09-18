@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -21,12 +22,23 @@ class OrderController extends Controller
         $order = Order::create($request->validated());
 
         $products = $request->products;
-        foreach($products as $product){
-            $order->products()->attach($product['product_id'], [
-                'quantity' => $product['quantity'],
-                'price' => $product['price']
+        foreach($products as $item){
+            $product = Product::findOrFail($item['product_id']);
+
+            if ($product->quantity < $item['quantity']) {
+                throw new \Exception("Not enough stock for {$product->name}");
+            }
+
+            $quantity = $item['quantity'];
+            $price = $item['price'];
+            $order->products()->attach($product->id, [
+                'quantity' => $quantity,
+                'price' => $price
             ]);
+
+            $product->decrement('quantity', $quantity);
         }
+
         $order->refreshTotal();
 
         return new OrderResource($order);

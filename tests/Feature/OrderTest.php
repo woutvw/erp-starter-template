@@ -66,7 +66,7 @@ describe('Client create endpoint', function () {
             ->create();
 
         $totalPrice = $products->sum(function($product){
-            return 2 * $product->sale_price;
+            return $product->sale_price;
         });
 
         $data = [
@@ -74,12 +74,12 @@ describe('Client create endpoint', function () {
             'products' => [
                 [
                     'product_id' => $products[0]->id,
-                    'quantity' => 2,
+                    'quantity' => 1,
                     'price' => $products[0]->sale_price
                 ],
                 [
                     'product_id' => $products[1]->id,
-                    'quantity' => 2,
+                    'quantity' => 1,
                     'price' => $products[1]->sale_price
                 ],
             ]
@@ -95,7 +95,36 @@ describe('Client create endpoint', function () {
     });
 
     it('updates product quantity when an order is placed', function (){
+        Passport::actingAs(User::factory()->create());
 
+        $originalNrOfProducts = rand(1, 5);
+
+        $client = Client::factory()->create();
+        $product = Product::factory()
+            ->state([
+                'quantity' => $originalNrOfProducts
+            ])
+            ->create();
+
+        $data = [
+            'client_id' => $client->id,
+            'products' => [
+                [
+                    'product_id' => $product->id,
+                    'quantity' => 1,
+                    'price' => $product->sale_price
+                ],
+            ]
+        ];
+
+        $this->postJson('/api/orders', $data)
+            ->assertCreated();
+
+        // Refresh product from DB
+        $product->refresh();
+
+        // Assert that the quantity was reduced
+        expect($product->quantity)->toBe($originalNrOfProducts - 1);
     });
 
     it('fails if data is missing', function () {
