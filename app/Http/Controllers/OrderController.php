@@ -64,13 +64,17 @@ class OrderController extends Controller
         $order->products()->sync($updatedProducts);
         $order->refreshTotal();
 
-        // TODO: calculate total
-
         return new OrderResource($order);
     }
 
     public function delete(Order $order)
     {
+        foreach($order->products as $product){
+            $quantity = $product->pivot->quantity;
+
+            $product->increment('quantity', $quantity);
+        }
+
         $order->delete();
 
         return response()->noContent();

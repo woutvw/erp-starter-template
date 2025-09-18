@@ -274,7 +274,33 @@ describe('Order delete endpoint', function () {
     });
 
     it('updates product quantity when an order removed', function (){
+        Passport::actingAs(User::factory()->create());
 
+        $originalNrOfProducts = rand(1,5);
+
+        $client = Client::factory()->create();
+        $product = Product::factory()->create([
+            'quantity' => $originalNrOfProducts,
+        ]);
+
+        // Create the order directly with factory
+        $order = Order::factory()
+            ->hasAttached($product, [
+                'quantity' => 2,
+                'price' => $product->sale_price,
+            ])
+            ->create([
+                'client_id' => $client->id,
+            ]);
+
+        $this->deleteJson("/api/orders/{$order->id}")
+            ->assertStatus(204);
+
+        // Refresh product from DB
+        $product->refresh();
+
+        // Assert that the quantity was reduced
+        expect($product->quantity)->toBe($originalNrOfProducts + 2);
     });
 
     it('rejects unauthenticated users', function () {
