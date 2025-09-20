@@ -23,11 +23,11 @@ class StoreOrderRequest extends FormRequest
     {
         return [
             'client_id' => 'required',
-            'status' => 'in:pending,paid,shipped,cancelled',
-            'products' => 'required|array',
-            'products.*.product_id' => 'required',
-            'products.*.quantity' => 'required',
-            'products.*.price' => 'required',
+            'status' => 'required|in:pending,paid,shipped,cancelled',
+            'products' => 'required|array|min:1',
+            'products.*.product_id' => 'required|exists:products,id',
+            'products.*.quantity' => 'required|integer|min:1',
+            'products.*.price' => 'required|numeric|min:0',
         ];
     }
 }

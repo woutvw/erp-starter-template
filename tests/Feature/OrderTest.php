@@ -64,6 +64,7 @@ describe('Client create endpoint', function () {
         $products = Product::factory()
             ->count(2)
             ->create();
+        $status = fake()->randomElement(['pending', 'paid', 'shipped', 'cancelled']);
 
         $totalPrice = $products->sum(function($product){
             return $product->sale_price;
@@ -71,6 +72,7 @@ describe('Client create endpoint', function () {
 
         $data = [
             'client_id' => $client->id,
+            'status' => $status,
             'products' => [
                 [
                     'product_id' => $products[0]->id,
@@ -88,6 +90,7 @@ describe('Client create endpoint', function () {
         $this->postJson('/api/orders', $data)
             ->assertCreated()
             ->assertJsonPath('data.client_id', $client->id)
+            ->assertJsonPath('data.status', $status)
             ->assertJsonPath('data.total_price', $totalPrice)
             ->assertJsonCount(2, 'data.products');
 
@@ -105,9 +108,11 @@ describe('Client create endpoint', function () {
                 'quantity' => $originalNrOfProducts
             ])
             ->create();
+        $status = fake()->randomElement(['pending', 'paid', 'shipped', 'cancelled']);
 
         $data = [
             'client_id' => $client->id,
+            'status' => $status,
             'products' => [
                 [
                     'product_id' => $product->id,
@@ -186,6 +191,9 @@ describe('Order edit endpoint', function () {
         Passport::actingAs(User::factory()->create());
 
         $order = Order::factory()->create();
+        $newClient = Client::factory()->create();
+        $status = fake()->randomElement(['pending', 'paid', 'shipped', 'cancelled']);
+
         $products = Product::factory()
             ->count(2)
             ->create();
@@ -195,7 +203,8 @@ describe('Order edit endpoint', function () {
         });
 
         $newData = [
-            'client_id' => $order->client->id,
+            'client_id' => $newClient->id,
+            'status' => $status,
             'products' => [
                 [
                     'product_id' => $products[0]->id,
@@ -212,13 +221,57 @@ describe('Order edit endpoint', function () {
 
         $this->putJson("/api/orders/{$order->id}", $newData)
             ->assertOk()
-            ->assertJsonPath('data.client_id', $order->client->id)
+            ->assertJsonPath('data.client_id', $newClient->id)
+            ->assertJsonPath('data.status', $status)
             ->assertJsonPath('data.total_price', $totalPrice)
             ->assertJsonCount(2, 'data.products');
     });
 
     it('updates product quantity when an order is updated', function (){
+        Passport::actingAs(User::factory()->create());
 
+        $originalNrOfProducts = rand(1,5);
+
+        $originalNrOfOrderProducts = 6;
+        $newNrOfOrderProducts = rand(1,5);
+        $difference = $originalNrOfOrderProducts - $newNrOfOrderProducts;
+
+        $client = Client::factory()->create();
+        $product = Product::factory()->create([
+            'quantity' => $originalNrOfProducts,
+        ]);
+        $status = fake()->randomElement(['pending', 'paid', 'shipped', 'cancelled']);
+
+        // Create the order directly with factory
+        $order = Order::factory()
+            ->hasAttached($product, [
+                'quantity' => $originalNrOfOrderProducts,
+                'price' => $product->sale_price,
+            ])
+            ->create([
+                'client_id' => $client->id,
+            ]);
+
+        $newData = [
+            'client_id' => $order->client->id,
+            'status' => $status,
+            'products' => [
+                [
+                    'product_id' => $product->id,
+                    'quantity' => $newNrOfOrderProducts,
+                    'price' => $product->sale_price
+                ]
+            ]
+        ];
+
+        $this->putJson("/api/orders/{$order->id}", $newData)
+            ->assertOk();
+
+        // Refresh product from DB
+        $product->refresh();
+
+        // Assert that the quantity was reduced
+        expect($product->quantity)->toBe($originalNrOfProducts + $difference);
     });
 
     it('returns 404 if product does not exist', function () {

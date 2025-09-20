@@ -6,6 +6,7 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\Product;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -17,29 +18,9 @@ class OrderController extends Controller
         return OrderResource::collection($orders->paginate(10));
     }
 
-    public function store(StoreOrderRequest $request)
+    public function store(StoreOrderRequest $request, OrderService $service)
     {
-        $order = Order::create($request->validated());
-
-        $products = $request->products;
-        foreach($products as $item){
-            $product = Product::findOrFail($item['product_id']);
-
-            if ($product->quantity < $item['quantity']) {
-                throw new \Exception("Not enough stock for {$product->name}");
-            }
-
-            $quantity = $item['quantity'];
-            $price = $item['price'];
-            $order->products()->attach($product->id, [
-                'quantity' => $quantity,
-                'price' => $price
-            ]);
-
-            $product->decrement('quantity', $quantity);
-        }
-
-        $order->refreshTotal();
+        $order = $service->create($request->validated());
 
         return new OrderResource($order);
     }
@@ -49,33 +30,16 @@ class OrderController extends Controller
         return new OrderResource($order);
     }
 
-    public function update(Order $order, StoreOrderRequest $request)
+    public function update(Order $order, StoreOrderRequest $request, OrderService $service)
     {
-        $order->update($request->validated());
-
-        $products = $request->products;
-        $updatedProducts = [];
-        foreach($products as $product){
-            $updatedProducts[$product['product_id']] = [
-                'quantity' => $product['quantity'],
-                'price' => $product['price']
-            ];
-        }
-        $order->products()->sync($updatedProducts);
-        $order->refreshTotal();
+        $order = $service->update($order, $request->validated());
 
         return new OrderResource($order);
     }
 
-    public function delete(Order $order)
+    public function delete(Order $order, OrderService $service)
     {
-        foreach($order->products as $product){
-            $quantity = $product->pivot->quantity;
-
-            $product->increment('quantity', $quantity);
-        }
-
-        $order->delete();
+        $service->remove($order);
 
         return response()->noContent();
     }
