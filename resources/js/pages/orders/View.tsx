@@ -3,11 +3,14 @@ import { useEffect, useState } from "react";
 import api from "../../api/axios";
 import Order from "../../types/order";
 import ClientCard from "../../components/ClientCard";
+import { useTranslation } from "react-i18next";
+import ProductsTable from "./ProductsTable";
 
 export default function OrderView(){
     const { id } = useParams();
     const [ order, setOrder ] = useState<Order>();
 
+    const {t} = useTranslation();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -20,8 +23,6 @@ export default function OrderView(){
             })
     },[]);
 
-    if(!order) return <p>Loading</p>
-
     return (
         <>
             <div className="breadcrumbs text-sm">
@@ -31,7 +32,10 @@ export default function OrderView(){
                     <li>{id}</li>
                 </ul>
             </div>
-            <ClientCard client={order.client}/>
+            <ClientCard client={order?.client}/>
+            <div className="card w-full bg-base-100 shadow-sm mt-2">
+                <ProductsTable products={order?.products}/>
+            </div>
         </>
     )
 }

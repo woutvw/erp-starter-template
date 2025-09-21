@@ -15,6 +15,7 @@ export default function ClientCard({ client }: ClientCardProps){
             </div>
         </div>
     )
+
     return (
         <div className="card w-full bg-base-100 shadow-sm">
             <div className="card-body">

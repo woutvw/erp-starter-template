@@ -20,8 +20,6 @@ export default function ClientView(){
             })
     },[]);
 
-    // if(!client) return <p>Loading</p>
-
     return (
         <>
             <div className="breadcrumbs text-sm">

@@ -6,6 +6,7 @@ import Client from "../../types/client";
 import OrderProduct from "../../types/orderProduct";
 import SearchableClientSelect from "../../components/SearchableClientSelect";
 import OrderProductModal from "./OrderProductModal";
+import ProductsTable from "./ProductsTable";
 
 export default function OrderUpdate(){
     const { id } = useParams();
@@ -61,26 +62,7 @@ export default function OrderUpdate(){
                 </fieldset>
                 <fieldset className="fieldset">
                     <legend className="fieldset-legend">{t('Products')}*</legend>
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>{t('Name')}</th>
-                                <th>{t('Price')}</th>
-                                <th>{t('Quantity')}</th>
-                                <th>{t('Total')}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {products.map((product, idx) => (
-                                <tr key={idx}>
-                                    <td>{product.name}</td>
-                                    <td>€ {product.price}</td>
-                                    <td>{product.quantity}</td>
-                                    <td>€ {product.price * product.quantity}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    <ProductsTable products={products}/>
                     <button type="button" className="btn" onClick={() => setModalOpen(true)}>{t('Add product')}</button>
                 </fieldset>
                 <div className="flex justify-end">
