@@ -19,6 +19,7 @@ import SupplierUpdate from "./pages/suppliers/Update";
 import OrderList from "./pages/orders/Index";
 import OrderView from "./pages/orders/View";
 import OrderCreate from "./pages/orders/Create";
+import OrderUpdate from "./pages/orders/Update";
 
 function ProtectedRoute({ children }: {children: JSX.Element}) {
     const { accessToken } = useAuth();
@@ -54,6 +55,7 @@ export default function App(){
                     <Route path="/orders" element={<OrderList/>}/>
                     <Route path="/orders/create" element={<OrderCreate/>}/>
                     <Route path="/orders/:id" element={<OrderView/>}/>
+                    <Route path="/orders/:id/edit" element={<OrderUpdate/>}/>
                 </Route>
             </Routes>
         </Router>

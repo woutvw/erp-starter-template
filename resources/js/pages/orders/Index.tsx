@@ -35,8 +35,11 @@ export default function OrderList() {
                             <td>{order.client.name}</td>
                             <td>{order.status}</td>
                             <td>€ {order.total_price}</td>
-                            <td>
-                                <button className="hover:text-error">
+                            <td className="flex justify-center">
+                                <Link onClick={e => {e.stopPropagation()}} to={'/orders/'+order.id+'/edit'} className="hover:text-primary">
+                                    <Icon name="pencil" className="w-5"/>
+                                </Link>
+                                <button className="hover:text-error cursor-pointer">
                                     <Icon name="bin" className="w-5"/>
                                 </button>
                             </td>
