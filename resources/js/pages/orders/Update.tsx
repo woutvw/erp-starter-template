@@ -52,7 +52,8 @@ export default function OrderUpdate(){
                 <ul>
                     <li><Link to="/">{t('Home')}</Link></li>
                     <li><Link to="/orders">{t('Orders')}</Link></li>
-                    <li>{t('Create')}</li>
+                    <li><Link to={"/orders/"+id}>{id}</Link></li>
+                    <li>{t('Edit')}</li>
                 </ul>
             </div>
             <form className="card bg-base-100 p-4" onSubmit={submit}>

@@ -27,8 +27,8 @@ export default function OrderView(){
         <>
             <div className="breadcrumbs text-sm">
                 <ul>
-                    <li><Link to="/">Home</Link></li>
-                    <li><Link to="/orders">Orders</Link></li>
+                    <li><Link to="/">{t('Home')}</Link></li>
+                    <li><Link to="/orders">{t('Orders')}</Link></li>
                     <li>{id}</li>
                 </ul>
             </div>
