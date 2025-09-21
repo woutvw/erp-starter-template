@@ -5,15 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
-use App\Models\Product;
 use App\Services\OrderService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $orders = Order::orderBy('created_at');
+
+        if($search = $request->search){
+            $orders->whereHas('client', function (Builder $query) use ($search) {
+                $query->where('name', 'LIKE', '%' . $search . '%');
+            });
+        }
 
         return OrderResource::collection($orders->paginate(10));
     }
