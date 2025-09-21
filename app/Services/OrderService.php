@@ -22,7 +22,6 @@ class OrderService
     {
         $order->update([
             'client_id' => $data['client_id'],
-            'status' => $data['status'],
         ]);
 
         $this->removeProducts($order);

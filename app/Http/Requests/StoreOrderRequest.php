@@ -23,7 +23,7 @@ class StoreOrderRequest extends FormRequest
     {
         return [
             'client_id' => 'required',
-            'status' => 'required|in:pending,paid,shipped,cancelled',
+            'status' => 'in:pending,paid,shipped,cancelled',
             'products' => 'required|array|min:1',
             'products.*.product_id' => 'required|exists:products,id',
             'products.*.quantity' => 'required|integer|min:1',
