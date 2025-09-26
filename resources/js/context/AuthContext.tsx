@@ -22,8 +22,8 @@ export function useAuth(): AuthContextType {
     return context;
 }
 
-const clientId = '0198ffc1-c7aa-73fe-9f1c-4db9add1676e';
-const clientSecret = 'IonaJCbR4vyG1LMQWp61bdS577m3gBKpSwqpFdhv';
+const clientId = '01998724-2716-7294-8055-1f0311e89ee8';
+const clientSecret = 'zPhjeiLjpWEycQpdZXptDgqBfBCubncS4hpZ8QBF';
 
 export function AuthProvider({ children }: {children: ReactNode}){
     const [ accessToken, setAccessToken ] = useState(localStorage.getItem('access_token'));
@@ -97,7 +97,11 @@ export function AuthProvider({ children }: {children: ReactNode}){
                         scope: ''
                     })
 
-                logout();
+                setAccessToken(response.data.access_token);
+                setRefreshToken(response.data.refresh_token);
+
+                localStorage.setItem('access_token',response.data.access_token)
+                localStorage.setItem('refresh_token',response.data.refresh_token)
 
                 return resolve(true);
             }catch(e){
