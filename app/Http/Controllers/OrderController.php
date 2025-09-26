@@ -6,8 +6,10 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Services\OrderService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -48,5 +50,18 @@ class OrderController extends Controller
         $service->remove($order);
 
         return response()->noContent();
+    }
+
+    public function revenue()
+    {
+        $revenue = Order::selectRaw('MONTH(created_at) as month, SUM(total_price) as revenue')
+            ->whereYear('created_at', Carbon::now()->year)
+            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->orderBy('month')
+            ->get()
+            ->pluck('revenue')
+            ->toArray();
+
+        return response()->json(['revenue' => $revenue]);
     }
 }

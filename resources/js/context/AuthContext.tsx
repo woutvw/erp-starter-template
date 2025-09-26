@@ -22,8 +22,8 @@ export function useAuth(): AuthContextType {
     return context;
 }
 
-const clientId = '01998724-2716-7294-8055-1f0311e89ee8';
-const clientSecret = 'zPhjeiLjpWEycQpdZXptDgqBfBCubncS4hpZ8QBF';
+const clientId = '01998739-83d7-7291-8b8d-fc7daa093641';
+const clientSecret = 'JeVboGzT6MWKKogRY12SOXcrXkF2gBUeBokA1kU9';
 
 export function AuthProvider({ children }: {children: ReactNode}){
     const [ accessToken, setAccessToken ] = useState(localStorage.getItem('access_token'));
@@ -66,7 +66,7 @@ export function AuthProvider({ children }: {children: ReactNode}){
 
                     return api(originalRequest);
                 }catch(e){
-                    console.error(e)
+                    logout()
                 }
             }
             if(error.response.status === 401 && error.config.url === '/oauth/token'){

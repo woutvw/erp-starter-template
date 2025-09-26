@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Scopes\CompanyScope;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -29,11 +30,14 @@ class OrderSeeder extends Seeder
         // Create 50 fake orders
         for ($i = 0; $i < 50; $i++) {
             $client = $clients->random();
+            // Random date between 1 year ago and now
+            $createdAt = Carbon::now()->subYear()->addDays(rand(0, 365))->addSeconds(rand(0, 86400));
 
             $order = Order::create([
                 'company_id' => $client->company_id,
                 'client_id' => $client->id,
                 'status' => collect(['pending', 'paid', 'shipped'])->random(),
+                'created_at' => $createdAt
             ]);
 
             // Attach between 1 and 5 products
