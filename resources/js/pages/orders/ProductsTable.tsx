@@ -8,13 +8,17 @@ interface ProductsTableProps {
 export default function ProductsTable({ products = [] }: ProductsTableProps){
     const {t} = useTranslation();
 
+    function round(number: number){
+        return Math.round(number * 100) / 100
+    }
+
     function totalPrice(){
         let total = 0;
         products?.forEach(product => {
             total += (product.price * product.quantity)
         })
 
-        return total;
+        return round(total);
     }
 
     return (
@@ -33,7 +37,7 @@ export default function ProductsTable({ products = [] }: ProductsTableProps){
                         <td>{product.name}</td>
                         <td>€ {product.price}</td>
                         <td>{product.quantity}</td>
-                        <td>€ {product.price * product.quantity}</td>
+                        <td>€ {round(product.price * product.quantity)}</td>
                     </tr>
                 ))}
                 <tr>
