@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             ClientSeeder::class,
             // OauthSeeder::class,
             SupplierSeeder::class,
+            OrderSeeder::class,
         ]);
     }
 }

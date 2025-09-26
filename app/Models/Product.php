@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Scopes\CompanyScope;
 use App\Models\Traits\BelongsToCompany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
