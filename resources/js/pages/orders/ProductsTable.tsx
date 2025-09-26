@@ -32,8 +32,8 @@ export default function ProductsTable({ products = [] }: ProductsTableProps){
                 </tr>
             </thead>
             <tbody>
-                {products.map(product => (
-                    <tr>
+                {products.map((product, idx) => (
+                    <tr key={idx}>
                         <td>{product.name}</td>
                         <td>€ {product.price}</td>
                         <td>{product.quantity}</td>
