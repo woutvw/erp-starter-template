@@ -3,12 +3,14 @@ import Client from "../../types/client";
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
 import ClientCard from "../../components/ClientCard";
+import { useTranslation } from "react-i18next";
 
 export default function ClientView(){
     const { id } = useParams();
     const [ client, setClient ] = useState<Client>();
 
     const navigate = useNavigate();
+    const {t} = useTranslation();
 
     useEffect(() => {
         api.get('/api/clients/'+id)
@@ -24,8 +26,8 @@ export default function ClientView(){
         <>
             <div className="breadcrumbs text-sm">
                 <ul>
-                    <li><Link to="/">Home</Link></li>
-                    <li><Link to="/clients">Clients</Link></li>
+                    <li><Link to="/">{t('Home')}</Link></li>
+                    <li><Link to="/clients">{t('Clients')}</Link></li>
                     <li>{client?.name}</li>
                 </ul>
             </div>

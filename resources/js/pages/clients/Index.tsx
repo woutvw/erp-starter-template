@@ -43,7 +43,10 @@ export default function ClientList() {
                             <td>{client.city}</td>
                             <td>{client.postal_code}</td>
                             <td>{client.vat}</td>
-                            <td>
+                            <td className="flex justify-center">
+                                <Link onClick={e => {e.stopPropagation()}} to={'/clients/'+client.id+'/edit'} className="hover:text-primary">
+                                    <Icon name="pencil" className="w-5"/>
+                                </Link>
                                 <button className="hover:text-error">
                                     <Icon name="bin" className="w-5"/>
                                 </button>
