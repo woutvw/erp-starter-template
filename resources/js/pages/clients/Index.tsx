@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Icon from "../../components/Icon";
 import DataTable from "../../components/DataTable";
+import api from "../../api/axios";
 
 export default function ClientList() {
     const [clients, setClients] = useState<Client[]>([]);
@@ -11,6 +12,12 @@ export default function ClientList() {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
+    function removeClient(client: Client){
+        api.delete('api/clients/'+client.id)
+            .then(() => {
+                setClients([ ...clients.filter(oldClient => oldClient.id !== client.id) ]);
+            })
+    }
 
     return (
         <>
@@ -47,7 +54,7 @@ export default function ClientList() {
                                 <Link onClick={e => {e.stopPropagation()}} to={'/clients/'+client.id+'/edit'} className="hover:text-primary">
                                     <Icon name="pencil" className="w-5"/>
                                 </Link>
-                                <button className="hover:text-error">
+                                <button onClick={e => {e.stopPropagation(); removeClient(client)}} className="hover:text-error cursor-pointer">
                                     <Icon name="bin" className="w-5"/>
                                 </button>
                             </td>
