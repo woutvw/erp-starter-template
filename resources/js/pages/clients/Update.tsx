@@ -4,11 +4,13 @@ import ClientForm from "./Form";
 import Client from "../../types/client";
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
+import ApiErrors from "../../types/apiErrors";
 
 export default function ClientUpdate(){
     const { id } = useParams();
 
     const [client, setClient] = useState<Client>()
+    const [errors, setErrors] = useState<ApiErrors>({});
 
     const navigate = useNavigate();
     const {t} = useTranslation();
@@ -25,11 +27,14 @@ export default function ClientUpdate(){
             })
     },[]);
 
-    function submit(newClient: Client){
+    function submit(newClient: Omit<Client, 'id'>){
         api.put('api/clients/'+id, newClient)
             .then(response => {
                 const client = response.data.data;
                 navigate('/clients/'+client.id)
+            })
+            .catch(err => {
+                setErrors(err.response.data.errors);
             })
     }
 
@@ -43,7 +48,7 @@ export default function ClientUpdate(){
                     <li>{t('Edit')}</li>
                 </ul>
             </div>
-            <ClientForm client={client} onSave={submit}/>
+            <ClientForm client={client} errors={errors} onSave={submit}/>
         </>
     )
 }

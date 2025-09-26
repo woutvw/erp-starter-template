@@ -76,6 +76,8 @@ export function AuthProvider({ children }: {children: ReactNode}){
                 localStorage.removeItem('access_token')
                 localStorage.removeItem('refresh_token')
             }
+
+            return Promise.reject(error)
         })
 
         return () => {

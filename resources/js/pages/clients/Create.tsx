@@ -4,22 +4,22 @@ import { useTranslation } from "react-i18next";
 import api from "../../api/axios";
 import ClientForm from "./Form";
 import Client from "../../types/client";
+import ApiErrors from "../../types/apiErrors";
 
 export default function ClientCreate(){
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const [address, setAddress] = useState('');
+    const [errors, setErrors] = useState<ApiErrors>({});
 
     const navigate = useNavigate();
     const {t} = useTranslation();
 
-    function submit(newClient: Client){
+    function submit(newClient: Omit<Client, "id">){
         api.post('/api/clients',newClient)
             .then((response) => {
                 const client = response.data.data;
-                console.log(client);
                 navigate('/clients/'+client.id);
+            })
+            .catch(err => {
+                setErrors(err.response.data.errors);
             })
     }
 
@@ -32,7 +32,7 @@ export default function ClientCreate(){
                     <li>{t('Create')}</li>
                 </ul>
             </div>
-            <ClientForm onSave={submit}/>
+            <ClientForm errors={errors} onSave={submit}/>
         </>
     )
 }
