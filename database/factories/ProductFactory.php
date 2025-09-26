@@ -23,7 +23,7 @@ class ProductFactory extends Factory
             'sku' => fake()->bothify('??###??'),
             'name' => fake()->words(3, true),
             'description' => fake()->sentence(),
-            'sale_price' => fake()->randomFloat(2, 1, 10),
+            'sale_price' => fake()->randomFloat(2, 10, 20),
             'purchase_price' => fake()->randomFloat(2, 1, 10),
             'quantity' => fake()->numberBetween(10, 50)
         ];
