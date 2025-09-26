@@ -21,15 +21,13 @@ export default function ProductView(){
             })
     },[]);
 
-    if(!product) return <p>Loading</p>
-
     return (
         <>
             <div className="breadcrumbs text-sm">
                 <ul>
                     <li><Link to="/">{t('Home')}</Link></li>
-                    <li><Link to="/suppliers">{t('Products')}</Link></li>
-                    <li>{product.sku}</li>
+                    <li><Link to="/products">{t('Products')}</Link></li>
+                    <li>{product?.sku}</li>
                 </ul>
             </div>
         </>

@@ -1,0 +1,93 @@
+import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next";
+import ApiErrors from "../../types/apiErrors";
+import Supplier from "../../types/supplier";
+import Product from "../../types/product";
+import EntitySelect from "../../components/EntitySelect";
+
+interface ProductFormProps {
+    product?: Product
+    errors: ApiErrors
+    onSave: (client: any) => void
+}
+
+export default function ProductForm({ product, errors, onSave }: ProductFormProps){
+    const [sku, setSku] = useState('');
+    const [name, setName] = useState('');
+    const [supplier, setSupplier] = useState<number>();
+    const [descripiton, setDescription] = useState('');
+    const [salePrice, setSalePrice] = useState(0);
+    const [purchasePrice, setPurchasePrice] = useState(0);
+    const [quantity, setQuantity] = useState(0);
+
+    const {t} = useTranslation();
+
+    useEffect(() => {
+        if(product){
+            setSku(product.sku);
+            setName(product.name);
+            setSupplier(product.supplier.id)
+            setDescription(product.description || '');
+            setSalePrice(product.sale_price);
+            setPurchasePrice(product.purchase_price);
+            setQuantity(product.quantity);
+        }
+    }, [product])
+
+    function submit(e: React.FormEvent){
+        e.preventDefault();
+
+        onSave({
+            sku: sku,
+            name: name,
+            supplier_id: supplier,
+            description: descripiton,
+            sale_price: salePrice,
+            purchase_price: purchasePrice,
+            quantity: quantity
+        })
+    }
+
+    return (
+        <form className="card bg-base-100 p-4" onSubmit={submit}>
+            <fieldset className="fieldset">
+                <legend className="fieldset-legend">{t('SKU')}*</legend>
+                <input value={sku} onChange={e => setSku(e.target.value)} className="input focus:outline-none w-full"/>
+                { errors.sku ? <p className="label text-error">{errors.sku[0]}</p> : <></>}
+            </fieldset>
+            <fieldset className="fieldset">
+                <legend className="fieldset-legend">{t('Name')}*</legend>
+                <input value={name} onChange={e => setName(e.target.value)} className="input focus:outline-none w-full"/>
+                { errors.name ? <p className="label text-error">{errors.name[0]}</p> : <></>}
+            </fieldset>
+            <fieldset className="fieldset">
+                <legend className="fieldset-legend">{t('Supplier')}*</legend>
+                <EntitySelect uri="/api/suppliers" label="Select a supplier" value={supplier} onChange={e => setSupplier(Number(e.target.value))}/>
+                { errors.supplier_id ? <p className="label text-error">{errors.supplier_id[0]}</p> : <></>}
+            </fieldset>
+            <fieldset className="fieldset">
+                <legend className="fieldset-legend">{t('Description')}</legend>
+                <input value={descripiton} onChange={e => setDescription(e.target.value)} className="input focus:outline-none w-full"/>
+                { errors.descripiton ? <p className="label text-error">{errors.descripiton[0]}</p> : <></>}
+            </fieldset>
+            <fieldset className="fieldset">
+                <legend className="fieldset-legend">{t('Sale price')}</legend>
+                <input type="number" value={salePrice} onChange={e => setSalePrice(Number(e.target.value))} className="input focus:outline-none w-full"/>
+                { errors.sale_price ? <p className="label text-error">{errors.sale_price[0]}</p> : <></>}
+            </fieldset>
+            <fieldset className="fieldset">
+                <legend className="fieldset-legend">{t('Purchase price')}</legend>
+                <input type="number" value={purchasePrice} onChange={e => setPurchasePrice(Number(e.target.value))} className="input focus:outline-none w-full"/>
+                { errors.purchase_price ? <p className="label text-error">{errors.purchase_price[0]}</p> : <></>}
+            </fieldset>
+            <fieldset className="fieldset">
+                <legend className="fieldset-legend">{t('Quantity')}</legend>
+                <input type="number" value={quantity} onChange={e => setQuantity(Number(e.target.value))} className="input focus:outline-none w-full"/>
+                { errors.quantity ? <p className="label text-error">{errors.quantity[0]}</p> : <></>}
+            </fieldset>
+            <div className="flex justify-end">
+                <button type="submit" className="btn btn-primary">{t('Save')}</button>
+            </div>
+        </form>
+    )
+}
