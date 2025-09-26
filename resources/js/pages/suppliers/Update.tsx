@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import api from "../../api/axios";
+import SupplierForm from "./Form";
+import Supplier from "../../types/supplier";
+import ApiErrors from "../../types/apiErrors";
 
 export default function SupplierUpdate(){
     const { id } = useParams();
 
-    const [name, setName] = useState('');
+    const [supplier, setSupplier] = useState<Supplier>();
+    const [errors, setErrors] = useState<ApiErrors>({});
 
     const navigate = useNavigate();
     const {t} = useTranslation();
@@ -16,22 +20,21 @@ export default function SupplierUpdate(){
             .then(response => {
                 const supplier = response.data.data;
 
-                setName(supplier.name);
+                setSupplier(supplier);
             })
             .catch(err => {
                 navigate(-1)
             })
     },[]);
 
-    function submit(e: React.FormEvent){
-        e.preventDefault();
-
-        api.put('api/suppliers/'+id, {
-                name: name,
-            })
+    function submit(newSupplier: Omit<Supplier, 'id'>){
+        api.put('api/suppliers/'+id, newSupplier)
             .then(response => {
                 const supplier = response.data.data;
                 navigate('/suppliers/'+supplier.id)
+            })
+            .catch(err => {
+                setErrors(err.response.data.errors);
             })
     }
 
@@ -45,15 +48,7 @@ export default function SupplierUpdate(){
                     <li>{t('Update')}</li>
                 </ul>
             </div>
-            <form className="card bg-base-100 p-4" onSubmit={submit}>
-                <fieldset className="fieldset">
-                    <legend className="fieldset-legend">{t('Name')}*</legend>
-                    <input value={name} onChange={e => setName(e.target.value)} className="input focus:outline-none w-full"/>
-                </fieldset>
-                <div className="flex justify-end">
-                    <button type="submit" className="btn btn-primary">{t('Save')}</button>
-                </div>
-            </form>
+            <SupplierForm supplier={supplier} errors={errors} onSave={submit}/>
         </>
     )
 }

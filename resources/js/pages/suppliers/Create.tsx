@@ -2,22 +2,25 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import api from "../../api/axios";
+import SupplierForm from "./Form";
+import Supplier from "../../types/supplier";
+import ApiErrors from "../../types/apiErrors";
 
 export default function SupplierCreate(){
     const [name, setName] = useState('');
+    const [errors, setErrors] = useState<ApiErrors>({})
 
     const navigate = useNavigate();
     const {t} = useTranslation();
 
-    function submit(e: React.FormEvent){
-        e.preventDefault();
-
-        api.post('api/suppliers', {
-                name: name,
-            })
+    function submit(newSupplier: Omit<Supplier, "id">){
+        api.post('api/suppliers', newSupplier)
             .then(response => {
                 const supplier = response.data.data;
                 navigate('/suppliers/'+supplier.id)
+            })
+            .catch(err => {
+                setErrors(err.response.data.errors);
             })
     }
 
@@ -26,19 +29,11 @@ export default function SupplierCreate(){
             <div className="breadcrumbs text-sm">
                 <ul>
                     <li><Link to="/">{t('Home')}</Link></li>
-                    <li><Link to="/products">{t('Products')}</Link></li>
+                    <li><Link to="/suppliers">{t('Suppliers')}</Link></li>
                     <li>{t('Create')}</li>
                 </ul>
             </div>
-            <form className="card bg-base-100 p-4" onSubmit={submit}>
-                <fieldset className="fieldset">
-                    <legend className="fieldset-legend">{t('Name')}*</legend>
-                    <input value={name} onChange={e => setName(e.target.value)} className="input focus:outline-none w-full"/>
-                </fieldset>
-                <div className="flex justify-end">
-                    <button type="submit" className="btn btn-primary">{t('Save')}</button>
-                </div>
-            </form>
+            <SupplierForm errors={errors} onSave={submit}/>
         </>
     )
 }
