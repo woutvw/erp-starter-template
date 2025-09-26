@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import api from "../../api/axios";
 import { useTranslation } from "react-i18next";
 import Supplier from "../../types/supplier";
+import SupplierCard from "../../components/SupplierCard";
 
 export default function SupplierView(){
     const { id } = useParams();
@@ -21,17 +22,16 @@ export default function SupplierView(){
             })
     },[]);
 
-    if(!supplier) return <p>Loading</p>
-
     return (
         <>
             <div className="breadcrumbs text-sm">
                 <ul>
                     <li><Link to="/">{t('Home')}</Link></li>
                     <li><Link to="/suppliers">{t('Suppliers')}</Link></li>
-                    <li>{supplier.name}</li>
+                    <li>{supplier?.name}</li>
                 </ul>
             </div>
+            <SupplierCard supplier={supplier}/>
         </>
     )
 }
