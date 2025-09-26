@@ -11,13 +11,13 @@ interface SearchableClientSelectProps {
 export default function SearchableClientSelect({client, onChange}: SearchableClientSelectProps){
     const [ clients, setClients ] = useState<Client[]>([]);
 
-    const [ search, setSeatch ] = useState('');
+    const [ search, setSearch ] = useState('');
     const debouncedSearch = useDebounce(search, 400);
 
     const [ open, setOpen ] = useState(false);
 
     useEffect(() => {
-        if(client) setSeatch(client.name);
+        if(client) setSearch(client.name);
     },[client])
 
     useEffect(() => {
@@ -59,7 +59,7 @@ export default function SearchableClientSelect({client, onChange}: SearchableCli
 
     return (
         <div className="relative">
-            <input value={search} onChange={(e) => setSeatch(e.target.value)} onFocus={handleFocus} onBlur={handleBlur} className="input select focus:outline-none w-full"/>
+            <input value={search} onChange={(e) => setSearch(e.target.value)} onFocus={handleFocus} onBlur={handleBlur} className="input select focus:outline-none w-full"/>
             { open && <Options/> }
         </div>
     )

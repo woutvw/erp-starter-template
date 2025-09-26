@@ -7,9 +7,15 @@ import OrderProduct from "../../types/orderProduct";
 import SearchableClientSelect from "../../components/SearchableClientSelect";
 import OrderProductModal from "./OrderProductModal";
 import ProductsTable from "./ProductsTable";
+import Order from "../../types/order";
+import OrderForm from "./Form";
+import ApiErrors from "../../types/apiErrors";
 
 export default function OrderUpdate(){
     const { id } = useParams();
+
+    const [order, setOrder] = useState<Order>();
+    const [errors, setErrors] = useState<ApiErrors>({});
 
     const [modalOpen, setModalOpen] = useState(false)
 
@@ -24,8 +30,7 @@ export default function OrderUpdate(){
             .then(response => {
                 const order = response.data.data;
 
-                setClient(order.client);
-                setProducts(order.products);
+                setOrder(order);
             })
             .catch(err => {
                 navigate(-1)
@@ -33,16 +38,14 @@ export default function OrderUpdate(){
     },[]);
 
 
-    function submit(e: React.FormEvent){
-        e.preventDefault();
-
-        api.put('api/orders/'+id, {
-                client_id: client?.id,
-                products: products
-            })
+    function submit(newOrder: any){
+        api.put('api/orders/'+id, newOrder)
             .then(response => {
                 const order = response.data.data;
                 navigate('/orders/'+order.id)
+            })
+            .catch(err => {
+                setErrors(err.response.data.errors);
             })
     }
 
@@ -56,21 +59,7 @@ export default function OrderUpdate(){
                     <li>{t('Edit')}</li>
                 </ul>
             </div>
-            <form className="card bg-base-100 p-4" onSubmit={submit}>
-                <fieldset className="fieldset">
-                    <legend className="fieldset-legend">{t('Client')}*</legend>
-                    <SearchableClientSelect client={client} onChange={(client) => setClient(client)}/>
-                </fieldset>
-                <fieldset className="fieldset">
-                    <legend className="fieldset-legend">{t('Products')}*</legend>
-                    <ProductsTable products={products}/>
-                    <button type="button" className="btn" onClick={() => setModalOpen(true)}>{t('Add product')}</button>
-                </fieldset>
-                <div className="flex justify-end">
-                    <button type="submit" className="btn btn-primary">{t('Save')}</button>
-                </div>
-            </form>
-            <OrderProductModal modalOpen={modalOpen} onCloseModal={() => setModalOpen(false)} onSaveProduct={product => setProducts([...products, product])}/>
+            <OrderForm order={order} errors={errors} onSave={submit}/>
         </>
     )
 }
