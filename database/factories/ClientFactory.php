@@ -25,7 +25,7 @@ class ClientFactory extends Factory
             'address' => fake()->address(),
             'city' => fake()->city(),
             'postal_code' => fake()->postcode(),
-            'created_at' => Carbon::now()->subYear(2)->addDays(rand(0, 365 * 2))
+            'created_at' => Carbon::now()->subYear(3)->addDays(rand(0, 365 * 3))
         ];
     }
 }

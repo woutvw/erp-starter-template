@@ -26,6 +26,7 @@ export default function OrderList() {
                         <th>{t('Client')}</th>
                         <th>{t('Status')}</th>
                         <th>{t('Price')}</th>
+                        <th>{t('Date')}</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -35,6 +36,7 @@ export default function OrderList() {
                             <td>{order.client.name}</td>
                             <td>{order.status}</td>
                             <td>€ {order.total_price}</td>
+                            <td>{order.date}</td>
                             <td className="flex justify-center">
                                 <Link onClick={e => {e.stopPropagation()}} to={'/orders/'+order.id+'/edit'} className="hover:text-primary">
                                     <Icon name="pencil" className="w-5"/>

@@ -7,6 +7,7 @@ type Order = {
     products: OrderProduct[];
     status: string;
     total_price: string;
+    date: string;
 };
 
 export default Order;

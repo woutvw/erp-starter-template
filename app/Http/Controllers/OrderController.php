@@ -15,7 +15,7 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        $orders = Order::orderBy('created_at');
+        $orders = Order::orderBy('created_at','DESC');
 
         if($search = $request->search){
             $orders->whereHas('client', function (Builder $query) use ($search) {
