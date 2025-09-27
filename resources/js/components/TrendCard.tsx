@@ -24,19 +24,19 @@ export default function TrendCard({title, uri, icon}: TrendCardProps){
     },[])
 
     return (
-        <div className="w-1/4 card bg-base-100 shadow-sm mr-2">
+        <div className="w-full card bg-base-100 shadow-sm">
             <div className="card-body justify-between">
                 <div className="flex justify-between">
                     <div className="w-full">
                         <h2 className="card-title text-base-content/50 truncate">{title}</h2>
                         <p className="font-bold text-2xl my-2">{total}</p>
                     </div>
-                    <div className="bg-primary min-h-10 min-w-10 h-10 w-10 rounded-full p-2 text-white hidden lg:block">
+                    <div className="bg-primary min-h-10 min-w-10 h-10 w-10 rounded-full p-2 text-white">
                         <Icon name={icon}/>
                     </div>
                 </div>
                 <div className="flex justify-between">
-                    <div className="w-2/3 hidden lg:block">
+                    <div className="w-2/3">
                         <TrendChart chartData={chartData}/>
                     </div>
                     <div className="flex items-end">

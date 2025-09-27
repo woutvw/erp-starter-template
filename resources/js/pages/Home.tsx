@@ -6,7 +6,12 @@ export default function Home(){
 
     return (
         <>
-            <div className="flex mb-2">
+            <div className="breadcrumbs text-sm">
+                <ul>
+                    <li>{t('Home')}</li>
+                </ul>
+            </div>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
                 <TrendCard title={t('New clients')} uri="api/analytics/clients/new" icon="clients"/>
                 <TrendCard title={t('Returning clients')} uri="api/analytics/clients/returning" icon="clients"/>
                 <TrendCard title={t('Total orders')} uri="api/analytics/orders" icon="warehouse"/>
