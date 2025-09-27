@@ -15,7 +15,7 @@ export default function Home(){
                 <TrendCard title={t('New clients')} uri="api/analytics/clients/new" icon="clients"/>
                 <TrendCard title={t('Returning clients')} uri="api/analytics/clients/returning" icon="clients"/>
                 <TrendCard title={t('Total orders')} uri="api/analytics/orders" icon="warehouse"/>
-                <TrendCard title={t('Total revenue')} uri="api/analytics/orders/revenue" icon="warehouse"/>
+                <TrendCard title={t('Total revenue')} uri="api/analytics/orders/revenue" icon="dollar"/>
             </div>
         </>
     )

@@ -1,5 +1,6 @@
 import Bin from "./icons/Bin";
 import ClientsIcon from "./icons/Clients";
+import Dollar from "./icons/Dollar";
 import HomeIcon from "./icons/Home";
 import PencilIcon from "./icons/Pencil";
 import ReceiptIcon from "./icons/Receipt";
@@ -20,6 +21,7 @@ export default function Icon({name, className = ''}: {name: string, className?: 
         case 'pencil': return <div className={className}><PencilIcon/></div>;
         case 'trend-up': return <div className={className}><TrendUp/></div>;
         case 'trend-down': return <div className={className}><TrendDown/></div>;
+        case 'dollar': return <div className={className}><Dollar/></div>;
     }
     return <></>
 }
