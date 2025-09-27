@@ -22,8 +22,8 @@ export function useAuth(): AuthContextType {
     return context;
 }
 
-const clientId = '01998739-83d7-7291-8b8d-fc7daa093641';
-const clientSecret = 'JeVboGzT6MWKKogRY12SOXcrXkF2gBUeBokA1kU9';
+const clientId = '01998b4e-e71e-71b1-9878-659c19cbd1fa';
+const clientSecret = 'hDtJZwqP9rjwrAc7PVFwfzyoUXxtoJPX4870gj3E';
 
 export function AuthProvider({ children }: {children: ReactNode}){
     const [ accessToken, setAccessToken ] = useState(localStorage.getItem('access_token'));

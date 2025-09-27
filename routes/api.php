@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -32,6 +33,8 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/orders/{order}', [OrderController::class, 'show']);
     Route::put('/orders/{order}', [OrderController::class, 'update']);
     Route::delete('/orders/{order}', [OrderController::class, 'delete']);
+
+    Route::get('/analytics/clients', [AnalyticsController::class, 'newClients']);
 
     Route::get('/user', function (Request $request) {
         return $request->user();

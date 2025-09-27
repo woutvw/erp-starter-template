@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -24,6 +25,7 @@ class ClientFactory extends Factory
             'address' => fake()->address(),
             'city' => fake()->city(),
             'postal_code' => fake()->postcode(),
+            'created_at' => Carbon::now()->subYear(2)->addDays(rand(0, 365 * 2))
         ];
     }
 }
