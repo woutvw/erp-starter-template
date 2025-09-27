@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Order;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
@@ -63,7 +64,55 @@ class AnalyticsController extends Controller
 
     public function returningClients()
     {
-        return self::trendResponse(0, 0, []);
+        $returningClientsYTD = Order::select('client_id')
+            ->where('created_at', '>=', Carbon::parse('-1 year'))
+            ->whereHas('client', function (Builder $query) {
+                $query->where('created_at', '<', Carbon::parse('-1 year'));
+            })
+            ->groupBy('client_id')
+            ->get()
+            ->count();
+        $returningClientsYTDPrevYear = Order::select('client_id')
+            ->where('created_at', '>=', Carbon::parse('-2 year'))
+            ->whereHas('client', function (Builder $query) {
+                $query->where('created_at', '<', Carbon::parse('-2 year'));
+            })
+            ->groupBy('client_id')
+            ->get()
+            ->count();
+        $trend = self::calculateTrend($returningClientsYTDPrevYear, $returningClientsYTD);
+
+        $returningClients = Order::selectRaw('client_id, COUNT(*) as total, MONTH(created_at) as month')
+            ->where('created_at', '>=', Carbon::parse('-1 year'))
+            ->whereHas('client', function (Builder $query) {
+                $query->where('created_at', '<', Carbon::parse('-1 year'));
+            })
+            ->groupByRaw('client_id, month')
+            ->get();
+
+        $mappedReturningClients = [];
+        foreach($returningClients as $info){
+            if(!isset($mappedReturningClients[$info->month])) $mappedReturningClients[$info->month]=0;
+            $mappedReturningClients[$info->month]++;
+        }
+
+        $chartData = [];
+
+        $currentYear = Carbon::now()->year;
+        $start = Carbon::now()->subYear()->startOfMonth();
+
+        for ($i = 0; $i < 12; $i++) {
+            $pointer = $start->copy()->addMonths($i);
+            $month = $pointer->translatedFormat('F');
+            if ($pointer->year !== $currentYear) $month .= ' ' . $pointer->year;
+
+            $chartData[] = [
+                'month' => $month,
+                'value' => isset($mappedReturningClients[$pointer->month]) ? $mappedReturningClients[$pointer->month] : 0
+            ];
+        }
+
+        return self::trendResponse($returningClientsYTD, $trend, $chartData);
     }
 
     public function orders()
