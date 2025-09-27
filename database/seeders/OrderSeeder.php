@@ -28,10 +28,10 @@ class OrderSeeder extends Seeder
         }
 
         // Create 50 fake orders
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < rand(50, 100); $i++) {
             $client = $clients->random();
             // Random date between 1 year ago and now
-            $createdAt = Carbon::now()->subYear()->addDays(rand(0, 365))->addSeconds(rand(0, 86400));
+            $createdAt = Carbon::now()->subYear(2)->addDays(rand(0, 365 * 2))->addSeconds(rand(0, 86400));
 
             $order = Order::create([
                 'company_id' => $client->company_id,

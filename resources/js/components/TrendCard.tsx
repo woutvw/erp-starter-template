@@ -31,7 +31,7 @@ export default function TrendCard({title, uri, icon}: TrendCardProps){
                         <h2 className="card-title text-base-content/50">{title}</h2>
                         <p>{total}</p>
                     </div>
-                    <div className="bg-secondary h-10 w-10 rounded-full p-2 text-white">
+                    <div className="bg-primary h-10 w-10 rounded-full p-2 text-white">
                         <Icon name={icon}/>
                     </div>
                 </div>

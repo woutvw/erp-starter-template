@@ -1,2 +1,2 @@
-export const iconStyle = { width: '100%', height: '100%', stroke: 'currentColor', fill: 'currentColor', strokeWidth: 2 }
-export const strokeIconStyle = { width: '100%', height: '100%', stroke: 'currentColor', fill: 'none', strokeWidth: 2 }
+export const iconStyle = { width: '100%', height: '100%', stroke: 'currentColor', fill: 'currentColor', strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }
+export const strokeIconStyle = { width: '100%', height: '100%', stroke: 'currentColor', fill: 'none', strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }

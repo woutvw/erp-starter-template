@@ -7,13 +7,12 @@ export default function Home(){
 
     return (
         <>
-            <div className="flex">
-                <TrendCard title={t('Total clients')} uri="api/analytics/clients" icon="clients"/>
-                <TrendCard title={t('Total clients')} uri="api/analytics/clients" icon="warehouse"/>
-                <TrendCard title={t('Total clients')} uri="api/analytics/clients" icon="warehouse"/>
-                <TrendCard title={t('Total clients')} uri="api/analytics/clients" icon="warehouse"/>
+            <div className="flex mb-2">
+                <TrendCard title={t('New clients')} uri="api/analytics/clients/new" icon="clients"/>
+                <TrendCard title={t('Returning clients')} uri="api/analytics/clients/returning" icon="clients"/>
+                <TrendCard title={t('Total orders')} uri="api/analytics/orders" icon="warehouse"/>
+                <TrendCard title={t('Total revenue')} uri="api/analytics/orders/revenue" icon="warehouse"/>
             </div>
-            <p>Home</p>
             <div className="flex">
                 <div className="w-1/2 card bg-base-100 shadow-sm mr-2">
                     <div className="card-body">

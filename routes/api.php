@@ -34,7 +34,10 @@ Route::middleware(['auth:api'])->group(function () {
     Route::put('/orders/{order}', [OrderController::class, 'update']);
     Route::delete('/orders/{order}', [OrderController::class, 'delete']);
 
-    Route::get('/analytics/clients', [AnalyticsController::class, 'newClients']);
+    Route::get('/analytics/clients/new', [AnalyticsController::class, 'newClients']);
+    Route::get('/analytics/clients/returning', [AnalyticsController::class, 'returningClients']);
+    Route::get('/analytics/orders', [AnalyticsController::class, 'orders']);
+    Route::get('/analytics/orders/revenue', [AnalyticsController::class, 'revenue']);
 
     Route::get('/user', function (Request $request) {
         return $request->user();

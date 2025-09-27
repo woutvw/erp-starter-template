@@ -55,7 +55,7 @@ class OrderController extends Controller
     public function revenue()
     {
         $revenue = Order::selectRaw('MONTH(created_at) as month, SUM(total_price) as revenue')
-            ->whereYear('created_at', Carbon::now()->year)
+            ->where('created_at', '>', Carbon::parse('-1 year'))
             ->groupBy(DB::raw('MONTH(created_at)'))
             ->orderBy('month')
             ->get()
