@@ -40,6 +40,12 @@ export default function DashboardLayout() {
                             </Link>
                         </li>
                         <li>
+                            <Link to="/categories">
+                                <Icon name="receipt" className="w-8 h-8"/>
+                                {t('Categories')}
+                            </Link>
+                        </li>
+                        <li>
                             <Link to="/products">
                                 <Icon name="warehouse" className="w-8 h-8"/>
                                 {t('Products')}

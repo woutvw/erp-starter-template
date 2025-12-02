@@ -23,6 +23,10 @@ import OrderCreate from "./pages/orders/Create";
 import OrderUpdate from "./pages/orders/Update";
 import ClientUpdate from "./pages/clients/Update";
 import ProductUpdate from "./pages/products/Update";
+import CategoryList from "./pages/categories/Index";
+import CategoryCreate from "./pages/categories/Create";
+import CategoryView from "./pages/categories/View";
+import CategoryUpdate from "./pages/categories/Update";
 
 function ProtectedRoute({ children }: {children: JSX.Element}) {
     const { accessToken } = useAuth();
@@ -53,6 +57,10 @@ export default function App(){
                     <Route path="/suppliers/create" element={<SupplierCreate/>}/>
                     <Route path="/suppliers/:id" element={<SupplierView/>}/>
                     <Route path="/suppliers/:id/edit" element={<SupplierUpdate/>}/>
+                    <Route path="/categories" element={<CategoryList/>}/>
+                    <Route path="/categories/create" element={<CategoryCreate/>}/>
+                    <Route path="/categories/:id" element={<CategoryView/>}/>
+                    <Route path="/categories/:id/edit" element={<CategoryUpdate/>}/>
                     <Route path="/products" element={<ProductList/>}/>
                     <Route path="/products/create" element={<ProductCreate/>}/>
                     <Route path="/products/:id" element={<ProductView/>}/>
