@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use App\Models\Supplier;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,6 +21,7 @@ class ProductFactory extends Factory
         return [
             'company_id' => 1,
             'supplier_id' => Supplier::factory(),
+            'category_id' => Category::factory(),
             'sku' => fake()->bothify('??###??'),
             'name' => fake()->words(3, true),
             'description' => fake()->sentence(),

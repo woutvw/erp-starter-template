@@ -2,8 +2,6 @@
 
 use App\Models\Client;
 use App\Models\User;
-use App\Models\Product;
-use App\Models\Supplier;
 use Laravel\Passport\Passport;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -20,6 +21,12 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/suppliers/{supplier}', [SupplierController::class, 'show']);
     Route::put('/suppliers/{supplier}', [SupplierController::class, 'update']);
     Route::delete('/suppliers/{supplier}', [SupplierController::class, 'delete']);
+
+    Route::get('/categories', [CategoryController::class, 'index']);
+    Route::post('/categories', [CategoryController::class, 'store']);
+    Route::get('/categories/{category}', [CategoryController::class, 'show']);
+    Route::put('/categories/{category}', [CategoryController::class, 'update']);
+    Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
 
     Route::get('/products', [ProductController::class, 'index']);
     Route::post('/products', [ProductController::class, 'store']);
