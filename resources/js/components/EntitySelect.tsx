@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import Supplier from "../types/supplier";
 import api from "../api/axios";
 
 interface EntitySelectProps {
@@ -20,8 +19,8 @@ export default function EntitySelect({uri, label, value, onChange}: EntitySelect
     },[])
 
     return (
-        <select className="select focus:outline-none w-full" value={value} onChange={onChange}>
-            <option disabled={true}>{label}</option>
+        <select className="select focus:outline-none w-full" value={value ?? ''} onChange={onChange}>
+            <option value="" disabled={true}>{label}</option>
             {records.map(record => (
                 <option key={record.id} value={record.id}>{record.name}</option>
             ))}

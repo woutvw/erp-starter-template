@@ -23,6 +23,7 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'supplier_id' => 'required', // TODO: more checks
+            'category_id' => 'nullable', // TODO: more checks
             'name' => 'required',
             'sku' => 'required',
             'description' => 'nullable',

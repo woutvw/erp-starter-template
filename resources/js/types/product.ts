@@ -1,3 +1,4 @@
+import Category from "./category";
 import Supplier from "./supplier";
 
 type Product = {
@@ -5,6 +6,7 @@ type Product = {
     sku: string
     name: string
     supplier: Supplier
+    category?: Category
     description?: string
     sale_price: number
     purchase_price: number

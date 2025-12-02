@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use App\Models\Company;
 use App\Models\Supplier;
 use Illuminate\Database\Migrations\Migration;
@@ -17,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Company::class);
             $table->foreignIdFor(Supplier::class);
+            $table->foreignIdFor(Category::class)->nullable();
             $table->string('sku');
             $table->string('name');
             $table->text('description')->nullable();

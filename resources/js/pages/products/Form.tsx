@@ -15,6 +15,7 @@ export default function ProductForm({ product, errors, onSave }: ProductFormProp
     const [sku, setSku] = useState('');
     const [name, setName] = useState('');
     const [supplier, setSupplier] = useState<number>();
+    const [category, setCategory] = useState<number>();
     const [descripiton, setDescription] = useState('');
     const [salePrice, setSalePrice] = useState(0);
     const [purchasePrice, setPurchasePrice] = useState(0);
@@ -27,6 +28,7 @@ export default function ProductForm({ product, errors, onSave }: ProductFormProp
             setSku(product.sku);
             setName(product.name);
             setSupplier(product.supplier.id)
+            setCategory(product.category?.id)
             setDescription(product.description || '');
             setSalePrice(product.sale_price);
             setPurchasePrice(product.purchase_price);
@@ -41,6 +43,7 @@ export default function ProductForm({ product, errors, onSave }: ProductFormProp
             sku: sku,
             name: name,
             supplier_id: supplier,
+            category_id: category,
             description: descripiton,
             sale_price: salePrice,
             purchase_price: purchasePrice,
@@ -64,6 +67,11 @@ export default function ProductForm({ product, errors, onSave }: ProductFormProp
                 <legend className="fieldset-legend">{t('Supplier')}*</legend>
                 <EntitySelect uri="/api/suppliers" label="Select a supplier" value={supplier} onChange={e => setSupplier(Number(e.target.value))}/>
                 { errors.supplier_id ? <p className="label text-error">{errors.supplier_id[0]}</p> : <></>}
+            </fieldset>
+            <fieldset className="fieldset">
+                <legend className="fieldset-legend">{t('Category')}</legend>
+                <EntitySelect uri="/api/categories" label="Select a category" value={category} onChange={e => setCategory(Number(e.target.value))}/>
+                { errors.category_id ? <p className="label text-error">{errors.category_id[0]}</p> : <></>}
             </fieldset>
             <fieldset className="fieldset">
                 <legend className="fieldset-legend">{t('Description')}</legend>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Supplier;
@@ -61,6 +62,7 @@ describe('Product create endpoint', function () {
 
         $data = [
             'supplier_id' => Supplier::factory()->create()->id,
+            'category_id' => Category::factory()->create()->id,
             'sku' => fake()->bothify('??###??'),
             'name' => fake()->words(3, true),
             'description' => fake()->sentence(),
@@ -144,6 +146,7 @@ describe('Product edit endpoint', function () {
         $product = Product::factory()->create();
         $newData = [
             'supplier_id' => Supplier::factory()->create()->id,
+            'category_id' => Category::factory()->create()->id,
             'sku' => fake()->bothify('??###??'),
             'name' => fake()->words(3, true),
             'description' => fake()->sentence(),

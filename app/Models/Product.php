@@ -14,6 +14,7 @@ class Product extends Model
 
     protected $fillable = [
         'supplier_id',
+        'category_id',
         'sku',
         'name',
         'description',
@@ -23,6 +24,11 @@ class Product extends Model
     ];
 
     public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
+
+    public function category()
     {
         return $this->belongsTo(Supplier::class);
     }

@@ -17,6 +17,7 @@ class ProductResource extends JsonResource
         $arr = parent::toArray($request);
 
         $arr['supplier'] = new SupplierResource($this->supplier);
+        $arr['category'] = new CategoryResource($this->category);
 
         return $arr;
     }
