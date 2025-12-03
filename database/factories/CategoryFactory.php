@@ -18,7 +18,8 @@ class CategoryFactory extends Factory
     {
         return [
             'company_id' => 1,
-            'name' => fake()->word()
+            'name' => fake()->word(),
+            'minimum_stock' => fake()->numberBetween(1, 10),
         ];
     }
 }

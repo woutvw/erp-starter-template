@@ -42,22 +42,22 @@ export default function ClientForm({ client, errors, onSave }: ClientFormProps){
             <fieldset className="fieldset">
                 <legend className="fieldset-legend">{t('Name')}*</legend>
                 <input value={name} onChange={e => setName(e.target.value)} className="input focus:outline-none w-full"/>
-                { errors.name ? <p className="label text-error">{errors.name[0]}</p> : <></>}
+                { errors?.name ? <p className="label text-error">{errors.name[0]}</p> : <></>}
             </fieldset>
             <fieldset className="fieldset">
                 <legend className="fieldset-legend">{t('Email')}</legend>
                 <input value={email} onChange={e => setEmail(e.target.value)} className="input focus:outline-none w-full"/>
-                { errors.email ? <p className="label text-error">{errors.email[0]}</p> : <></>}
+                { errors?.email ? <p className="label text-error">{errors.email[0]}</p> : <></>}
             </fieldset>
             <fieldset className="fieldset">
                 <legend className="fieldset-legend">{t('Phone')}</legend>
                 <input value={phone} onChange={e => setPhone(e.target.value)} className="input focus:outline-none w-full"/>
-                { errors.phone ? <p className="label text-error">{errors.phone[0]}</p> : <></>}
+                { errors?.phone ? <p className="label text-error">{errors.phone[0]}</p> : <></>}
             </fieldset>
             <fieldset className="fieldset">
                 <legend className="fieldset-legend">{t('Address')}</legend>
                 <input value={address} onChange={e => setAddress(e.target.value)} className="input focus:outline-none w-full"/>
-                { errors.address ? <p className="label text-error">{errors.address[0]}</p> : <></>}
+                { errors?.address ? <p className="label text-error">{errors.address[0]}</p> : <></>}
             </fieldset>
             <div className="flex justify-end">
                 <button type="submit" className="btn btn-primary">{t('Save')}</button>

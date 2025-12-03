@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Company::class);
             $table->string('name');
+            $table->integer('minimum_stock')->nullable();
             $table->timestamps();
         });
     }

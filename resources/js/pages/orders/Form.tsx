@@ -44,12 +44,12 @@ export default function OrderForm({ order, errors, onSave }: OrderFormProps){
                 <fieldset className="fieldset">
                     <legend className="fieldset-legend">{t('Client')}*</legend>
                     <SearchableClientSelect client={client} onChange={(client) => setClient(client)}/>
-                    { errors.client_id ? <p className="label text-error">{errors.client_id[0]}</p> : <></>}
+                    { errors?.client_id ? <p className="label text-error">{errors.client_id[0]}</p> : <></>}
                 </fieldset>
                 <fieldset className="fieldset">
                     <legend className="fieldset-legend">{t('Products')}*</legend>
                     <ProductsTable products={products}/>
-                    { errors.products ? <p className="label text-error">{errors.products[0]}</p> : <></>}
+                    { errors?.products ? <p className="label text-error">{errors.products[0]}</p> : <></>}
                     <button type="button" className="btn" onClick={() => setModalOpen(true)}>{t('Add product')}</button>
                 </fieldset>
                 <div className="flex justify-end">

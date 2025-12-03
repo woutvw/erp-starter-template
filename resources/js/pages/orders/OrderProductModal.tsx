@@ -12,8 +12,8 @@ interface OrderProductModalProps {
 
 export default function OrderProductModal({onSaveProduct, onCloseModal, modalOpen}: OrderProductModalProps){
     const [product, setProduct] = useState<Product>();
-    const [price, setPrice] = useState(0);
-    const [quantity, setQuantity] = useState(1);
+    const [price, setPrice] = useState<string>();
+    const [quantity, setQuantity] = useState<string>();
 
     const {t} = useTranslation();
 
@@ -23,16 +23,16 @@ export default function OrderProductModal({onSaveProduct, onCloseModal, modalOpe
         onSaveProduct({
             product_id: product.id,
             name: product.name,
-            price: price,
-            quantity: quantity
+            price: Number(price),
+            quantity: Number(quantity)
         })
         handleCloseModal();
     }
 
     function handleCloseModal(){
         setProduct(undefined);
-        setPrice(0);
-        setQuantity(1);
+        setPrice('0');
+        setQuantity('1');
         onCloseModal();
     }
 
@@ -46,15 +46,15 @@ export default function OrderProductModal({onSaveProduct, onCloseModal, modalOpe
                 </form>
                 <fieldset className="fieldset">
                     <legend className="fieldset-legend">{t('Product')}*</legend>
-                    <SearchProductSelect product={product} onChange={(product) => {setProduct(product); setPrice(product.sale_price)}}/>
+                    <SearchProductSelect product={product} onChange={(product) => {setProduct(product); setPrice(product.sale_price+'')}}/>
                 </fieldset>
                 <fieldset className="fieldset">
                     <legend className="fieldset-legend">{t('Price')}*</legend>
-                    <input type="number" value={price} onChange={e => setPrice(Number(e.target.value))} className="input w-full"/>
+                    <input type="number" value={price} onChange={e => setPrice(e.target.value)} className="input w-full"/>
                 </fieldset>
                 <fieldset className="fieldset">
                     <legend className="fieldset-legend">{t('Quantity')}*</legend>
-                    <input type="number" value={quantity} onChange={e => setQuantity(Number(e.target.value))} className="input w-full"/>
+                    <input type="number" value={quantity} onChange={e => setQuantity(e.target.value)} className="input w-full"/>
                 </fieldset>
                 <div className="modal-action">
                     <form method="dialog">

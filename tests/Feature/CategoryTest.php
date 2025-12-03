@@ -47,15 +47,13 @@ describe('Category create endpoint', function () {
     it('saves a category if all data is provided', function () {
         Passport::actingAs(User::factory()->create());
 
-        $data = [
-            'name' => fake()->word()
-        ];
+        $category = Category::factory()->make()->toArray();
 
-        $this->postJson('/api/categories', $data)
+        $this->postJson('/api/categories', $category)
             ->assertCreated()
-            ->assertJsonFragment($data);
+            ->assertJsonFragment($category);
 
-        $this->assertDatabaseHas('categories', $data);
+        $this->assertDatabaseHas('categories', $category);
     });
 
     it('fails if name is missing', function () {
@@ -64,6 +62,16 @@ describe('Category create endpoint', function () {
         $this->postJson('/api/categories', [])
             ->assertStatus(422)
             ->assertJsonValidationErrors(['name']);
+    });
+
+    it('fails if minimum_stock is not an int', function () {
+        Passport::actingAs(User::factory()->create());
+
+        $this->postJson('/api/categories', [
+                'minimum_stock' => 'test'
+            ])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['minimum_stock']);
     });
 
     it('rejects unauthenticated users', function () {

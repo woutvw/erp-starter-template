@@ -11,12 +11,14 @@ interface CategoryFormProps {
 
 export default function CategoryFrom({ category, errors, onSave }: CategoryFormProps){
     const [name, setName] = useState('');
+    const [minimumStock, setMinimumStock] = useState('');
 
     const {t} = useTranslation();
 
     useEffect(() => {
         if(category){
             setName(category.name);
+            setMinimumStock(category.minimum_stock+'');
         }
     }, [category])
 
@@ -24,7 +26,8 @@ export default function CategoryFrom({ category, errors, onSave }: CategoryFormP
         e.preventDefault();
 
         onSave({
-            name: name
+            name: name,
+            minimum_stock: minimumStock ? Number(minimumStock) : undefined,
         })
     }
 
@@ -33,7 +36,12 @@ export default function CategoryFrom({ category, errors, onSave }: CategoryFormP
             <fieldset className="fieldset">
                 <legend className="fieldset-legend">{t('Name')}*</legend>
                 <input value={name} onChange={e => setName(e.target.value)} className="input focus:outline-none w-full"/>
-                { errors.name ? <p className="label text-error">{errors.name[0]}</p> : <></>}
+                { errors?.name ? <p className="label text-error">{errors.name[0]}</p> : <></>}
+            </fieldset>
+            <fieldset className="fieldset">
+                <legend className="fieldset-legend">{t('Minimum stock')}*</legend>
+                <input value={minimumStock} onChange={e => setMinimumStock(e.target.value)} className="input focus:outline-none w-full"/>
+                { errors?.minimumStock ? <p className="label text-error">{errors.minimumStock[0]}</p> : <></>}
             </fieldset>
             <div className="flex justify-end">
                 <button type="submit" className="btn btn-primary">{t('Save')}</button>

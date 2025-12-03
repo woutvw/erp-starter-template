@@ -45,9 +45,6 @@ RUN a2enmod rewrite
 # Set the Apache DocumentRoot to Laravel's public directory
 RUN sed -i 's|/var/www/html|/var/www/html/public|' /etc/apache2/sites-available/000-default.conf
 
-# Modify ImageMagick policy to allow PDF
-# RUN sed -i 's/<policy domain="coder" rights="none" pattern="PDF"/<policy domain="coder" rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
-
 # Grant permissions to the public directory
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
