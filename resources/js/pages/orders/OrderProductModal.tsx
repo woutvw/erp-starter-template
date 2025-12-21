@@ -50,11 +50,11 @@ export default function OrderProductModal({onSaveProduct, onCloseModal, modalOpe
                 </fieldset>
                 <fieldset className="fieldset">
                     <legend className="fieldset-legend">{t('Price')}*</legend>
-                    <input value={price} onChange={e => setPrice(e.target.value)} className="input w-full"/>
+                    <input type="number" value={price} onChange={e => setPrice(e.target.value)} className="input w-full"/>
                 </fieldset>
                 <fieldset className="fieldset">
                     <legend className="fieldset-legend">{t('Quantity')}*</legend>
-                    <input value={quantity} onChange={e => setQuantity(e.target.value)} className="input w-full"/>
+                    <input type="number" value={quantity} onChange={e => setQuantity(e.target.value)} className="input w-full"/>
                 </fieldset>
                 <div className="modal-action">
                     <form method="dialog">
