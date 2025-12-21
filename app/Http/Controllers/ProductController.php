@@ -23,6 +23,10 @@ class ProductController extends Controller
                 });
         }
 
+        if ($category = $request->category_id) {
+            $products->where('category_id', $category);
+        }
+
         return ProductResource::collection($products->paginate(10));
     }
 

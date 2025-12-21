@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import Icon from "../../components/Icon";
 import Product from "../../types/product";
 import DataTable from "../../components/DataTable";
+import ProductStockIndicator from "../../components/ProductStockIndicator";
 
 export default function ProductList() {
     const [products, setProducts] = useState<Product[]>([]);
@@ -23,6 +24,7 @@ export default function ProductList() {
             <DataTable uri="api/products" createLink="/products/create" createText="Add product" onDataUpdate={(products) => setProducts(products)}>
                 <thead>
                         <tr>
+                            <th></th>
                             <th>{t('SKU')}</th>
                             <th>{t('Name')}</th>
                             <th>{t('Supplier')}</th>
@@ -34,6 +36,9 @@ export default function ProductList() {
                     <tbody>
                         {products.map(product => (
                             <tr key={product.id} onClick={() => { navigate('/products/' + product.id) }} className="hover:bg-base-300 cursor-pointer">
+                                <td>
+                                    <ProductStockIndicator product={product}/>
+                                </td>
                                 <td>{product.sku}</td>
                                 <td>{product.name}</td>
                                 <td>{product.supplier.name}</td>

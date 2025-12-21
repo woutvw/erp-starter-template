@@ -7,8 +7,8 @@ import useDebounce from "../hooks/useDebounce";
 interface DataTableProps {
     children: ReactNode
     uri: string
-    createLink: string
-    createText: string
+    createLink?: string
+    createText?: string
     onDataUpdate:(data: any) => void
 }
 
@@ -46,7 +46,9 @@ export default function DataTable({ children, uri, createLink, createText, onDat
         <>
             <div className="mb-2 flex justify-between">
                 <input className="input focus:outline-none" value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t('Search ...')}/>
-                <Link to={createLink} className="btn btn-primary">{t(createText)}</Link>
+                { (createLink && createText) && (
+                    <Link to={createLink} className="btn btn-primary">{t(createText)}</Link>
+                )}
             </div>
             <div className="rounded-box border border-base-content/5 bg-base-100">
                 <table className="table">
