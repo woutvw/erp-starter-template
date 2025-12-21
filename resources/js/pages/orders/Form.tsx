@@ -29,6 +29,14 @@ export default function OrderForm({ order, errors, onSave }: OrderFormProps){
         }
     }, [order])
 
+    function addProduct(product: OrderProduct){
+        setProducts([...products, product]);
+    }
+
+    function removeProduct(product: OrderProduct){
+        setProducts(prevProducts => prevProducts.filter(prod => prod.product_id !== product.product_id));
+    }
+
     function submit(e: React.FormEvent){
         e.preventDefault();
 
@@ -48,7 +56,7 @@ export default function OrderForm({ order, errors, onSave }: OrderFormProps){
                 </fieldset>
                 <fieldset className="fieldset">
                     <legend className="fieldset-legend">{t('Products')}*</legend>
-                    <ProductsTable products={products}/>
+                    <ProductsTable products={products} onRemoveProduct={removeProduct}/>
                     { errors?.products ? <p className="label text-error">{errors.products[0]}</p> : <></>}
                     <button type="button" className="btn" onClick={() => setModalOpen(true)}>{t('Add product')}</button>
                 </fieldset>
@@ -56,7 +64,7 @@ export default function OrderForm({ order, errors, onSave }: OrderFormProps){
                     <button type="submit" className="btn btn-primary">{t('Save')}</button>
                 </div>
             </form>
-            <OrderProductModal modalOpen={modalOpen} onCloseModal={() => setModalOpen(false)} onSaveProduct={product => setProducts([...products, product])}/>
+            <OrderProductModal modalOpen={modalOpen} onCloseModal={() => setModalOpen(false)} onSaveProduct={addProduct}/>
         </>
     )
 }
