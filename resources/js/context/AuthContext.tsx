@@ -22,8 +22,8 @@ export function useAuth(): AuthContextType {
     return context;
 }
 
-const clientId = '01998bfd-7d4f-7341-bba7-bb614df91b97';
-const clientSecret = '9G25b9BcZxCzzSwI1XBnKdMbxpsEDn8vyNiv0y2u';
+const clientId = import.meta.env.VITE_OAUTH_CLIENT_ID;
+const clientSecret = import.meta.env.VITE_OAUTH_CLIENT_SECRET;
 
 export function AuthProvider({ children }: {children: ReactNode}){
     const [ accessToken, setAccessToken ] = useState(localStorage.getItem('access_token'));
