@@ -10,7 +10,6 @@ export interface LaravelPaginationMeta{
 }
 
 const api = axios.create({
-    baseURL: 'http://localhost',
     headers: {
         Accept: "application/json",
     },
