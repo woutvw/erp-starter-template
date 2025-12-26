@@ -1,3 +1,4 @@
+php artisan passport:keys
 php artisan migrate:refresh --seed
 php artisan passport:client --password
 
