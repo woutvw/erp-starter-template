@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Company;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
@@ -13,8 +14,8 @@ class CreateUser extends Command
      *
      * @var string
      */
-    protected $signature = 'app:create-user {name} {email} {password}';
-    // php artisan app:create-user "Wout Van Wonterghem" woutvanwonterghem@gmail.com secret
+    protected $signature = 'app:create-user {company} {vat} {name} {email} {password}';
+    // php artisan app:create-user Apptiek "BE123.456.789" "Wout Van Wonterghem" woutvanwonterghem@gmail.com secret
 
     /**
      * The console command description.
@@ -28,11 +29,19 @@ class CreateUser extends Command
      */
     public function handle()
     {
+        $companyName = $this->argument('company');
+        $vat = $this->argument('vat');
+        $company = Company::create([
+            'name' => $companyName,
+            'vat' => $vat
+        ]);
+
         $name = $this->argument('name');
         $email = $this->argument('email');
         $password = Hash::make($this->argument('password'));
 
         $user = new User([
+            'company_id' => $company->id,
             'name' => $name,
             'email' => $email,
             'password' => $password
