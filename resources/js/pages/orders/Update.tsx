@@ -23,7 +23,7 @@ export default function OrderUpdate(){
     const {t} = useTranslation();
 
     useEffect(() => {
-        api.get('api/orders/'+id)
+        api.get('/api/orders/'+id)
             .then(response => {
                 const order = response.data.data;
 
@@ -36,7 +36,7 @@ export default function OrderUpdate(){
 
 
     function submit(newOrder: any){
-        api.put('api/orders/'+id, newOrder)
+        api.put('/api/orders/'+id, newOrder)
             .then(response => {
                 const order = response.data.data;
                 navigate('/orders/'+order.id)

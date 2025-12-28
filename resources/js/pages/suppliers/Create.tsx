@@ -14,7 +14,7 @@ export default function SupplierCreate(){
     const {t} = useTranslation();
 
     function submit(newSupplier: Omit<Supplier, "id">){
-        api.post('api/suppliers', newSupplier)
+        api.post('/api/suppliers', newSupplier)
             .then(response => {
                 const supplier = response.data.data;
                 navigate('/suppliers/'+supplier.id)

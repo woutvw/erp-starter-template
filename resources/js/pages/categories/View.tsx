@@ -16,7 +16,7 @@ export default function CategoryView() {
     const { t } = useTranslation();
 
     useEffect(() => {
-        api.get('api/categories/' + id)
+        api.get('/api/categories/' + id)
             .then(response => {
                 setCategory(response.data.data);
             })

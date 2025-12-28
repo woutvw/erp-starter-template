@@ -13,7 +13,7 @@ export default function ClientList() {
     const navigate = useNavigate();
 
     function removeClient(client: Client){
-        api.delete('api/clients/'+client.id)
+        api.delete('/api/clients/'+client.id)
             .then(() => {
                 setClients([ ...clients.filter(oldClient => oldClient.id !== client.id) ]);
             })

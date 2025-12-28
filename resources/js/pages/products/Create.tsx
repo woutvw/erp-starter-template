@@ -12,7 +12,7 @@ export default function ProductCreate(){
     const {t} = useTranslation();
 
     function submit(newProduct: any){
-        api.post('api/products', newProduct)
+        api.post('/api/products', newProduct)
             .then(response => {
                 const product = response.data.data;
                 navigate('/products/'+product.id)

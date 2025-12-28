@@ -13,7 +13,7 @@ export default function CategoryCreate(){
     const {t} = useTranslation();
 
     function submit(newCategory: Omit<Category, "id">){
-        api.post('api/categories', newCategory)
+        api.post('/api/categories', newCategory)
             .then(response => {
                 const category = response.data.data;
                 navigate('/categories/'+category.id)

@@ -16,7 +16,7 @@ export default function ProductUpdate(){
     const {t} = useTranslation();
 
     useEffect(() => {
-        api.get('api/products/'+id)
+        api.get('/api/products/'+id)
             .then(response => {
                 const product = response.data.data;
 
@@ -28,7 +28,7 @@ export default function ProductUpdate(){
     },[]);
 
     function submit(newProduct: any){
-        api.put('api/products/'+id, newProduct)
+        api.put('/api/products/'+id, newProduct)
             .then(response => {
                 const supplier = response.data.data;
                 navigate('/products/'+supplier.id)

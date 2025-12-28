@@ -12,7 +12,7 @@ export default function ProductView(){
     const {t} = useTranslation();
 
     useEffect(() => {
-        api.get('api/products/'+id)
+        api.get('/api/products/'+id)
             .then(response => {
                 setProduct(response.data.data);
             })

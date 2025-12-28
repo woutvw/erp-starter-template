@@ -16,7 +16,7 @@ export default function ClientUpdate(){
     const {t} = useTranslation();
 
     useEffect(() => {
-        api.get('api/clients/'+id)
+        api.get('/api/clients/'+id)
             .then(response => {
                 const client = response.data.data;
 
@@ -28,7 +28,7 @@ export default function ClientUpdate(){
     },[]);
 
     function submit(newClient: Omit<Client, 'id'>){
-        api.put('api/clients/'+id, newClient)
+        api.put('/api/clients/'+id, newClient)
             .then(response => {
                 const client = response.data.data;
                 navigate('/clients/'+client.id)

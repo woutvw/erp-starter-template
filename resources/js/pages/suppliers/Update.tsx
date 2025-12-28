@@ -16,7 +16,7 @@ export default function SupplierUpdate(){
     const {t} = useTranslation();
 
     useEffect(() => {
-        api.get('api/suppliers/'+id)
+        api.get('/api/suppliers/'+id)
             .then(response => {
                 const supplier = response.data.data;
 
@@ -28,7 +28,7 @@ export default function SupplierUpdate(){
     },[]);
 
     function submit(newSupplier: Omit<Supplier, 'id'>){
-        api.put('api/suppliers/'+id, newSupplier)
+        api.put('/api/suppliers/'+id, newSupplier)
             .then(response => {
                 const supplier = response.data.data;
                 navigate('/suppliers/'+supplier.id)

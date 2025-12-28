@@ -18,7 +18,7 @@ export default function CategoryUpdate(){
     const {t} = useTranslation();
 
     useEffect(() => {
-        api.get('api/categories/'+id)
+        api.get('/api/categories/'+id)
             .then(response => {
                 const category = response.data.data;
 
@@ -30,7 +30,7 @@ export default function CategoryUpdate(){
     },[]);
 
     function submit(newCategory: Omit<Category, 'id'>){
-        api.put('api/categories/'+id, newCategory)
+        api.put('/api/categories/'+id, newCategory)
             .then(response => {
                 const category = response.data.data;
                 navigate('/categories/'+category.id)

@@ -12,7 +12,7 @@ export default function OrderCreate(){
     const {t} = useTranslation();
 
     function submit(newOrder: any){
-        api.post('api/orders', newOrder)
+        api.post('/api/orders', newOrder)
             .then(response => {
                 const order = response.data.data;
                 navigate('/orders/'+order.id)

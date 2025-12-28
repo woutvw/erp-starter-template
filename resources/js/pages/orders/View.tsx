@@ -14,7 +14,7 @@ export default function OrderView(){
     const navigate = useNavigate();
 
     useEffect(() => {
-        api.get('api/orders/'+id)
+        api.get('/api/orders/'+id)
             .then(response => {
                 setOrder(response.data.data);
             })

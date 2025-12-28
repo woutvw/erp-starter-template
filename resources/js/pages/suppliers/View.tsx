@@ -13,7 +13,7 @@ export default function SupplierView(){
     const {t} = useTranslation();
 
     useEffect(() => {
-        api.get('api/suppliers/'+id)
+        api.get('/api/suppliers/'+id)
             .then(response => {
                 setSupplier(response.data.data);
             })
