@@ -50,8 +50,8 @@ export default function DataTable({ children, uri, createLink, createText, onDat
                     <Link to={createLink} className="btn btn-primary">{t(createText)}</Link>
                 )}
             </div>
-            <div className="rounded-box border border-base-content/5 bg-base-100">
-                <table className="table">
+            <div className="rounded-box border border-base-content/5 bg-base-100 overflow-x-auto">
+                <table className="table table-sm md:table-md">
                     {children}
                 </table>
             </div>

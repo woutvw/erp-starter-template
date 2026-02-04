@@ -43,20 +43,22 @@ export default function ClientList() {
                 <tbody>
                     {clients.map(client => (
                         <tr key={client.id} onClick={() => { navigate('/clients/' + client.id) }} className="hover:bg-base-300 cursor-pointer">
-                            <td>{client.name}</td>
+                            <td className="whitespace-nowrap">{client.name}</td>
                             <td>{client.email}</td>
-                            <td>{client.phone}</td>
-                            <td>{client.address}</td>
+                            <td className="whitespace-nowrap">{client.phone}</td>
+                            <td className="whitespace-nowrap">{client.address}</td>
                             <td>{client.city}</td>
                             <td>{client.postal_code}</td>
                             <td>{client.vat}</td>
-                            <td className="flex justify-center">
-                                <Link onClick={e => {e.stopPropagation()}} to={'/clients/'+client.id+'/edit'} className="hover:text-primary">
-                                    <Icon name="pencil" className="w-5"/>
-                                </Link>
-                                <button onClick={e => {e.stopPropagation(); removeClient(client)}} className="hover:text-error cursor-pointer">
-                                    <Icon name="bin" className="w-5"/>
-                                </button>
+                            <td className="sticky right-0 bg-base-100">
+                                <div className="flex justify-center">
+                                    <Link onClick={e => {e.stopPropagation()}} to={'/clients/'+client.id+'/edit'} className="hover:text-primary">
+                                        <Icon name="pencil" className="w-5"/>
+                                    </Link>
+                                    <button onClick={e => {e.stopPropagation(); removeClient(client)}} className="hover:text-error cursor-pointer">
+                                        <Icon name="bin" className="w-5"/>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     ))}

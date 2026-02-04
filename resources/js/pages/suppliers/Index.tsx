@@ -30,13 +30,15 @@ export default function SupplierList() {
                     {suppliers.map(supplier => (
                         <tr key={supplier.id} onClick={(e) => { console.log(e); navigate('/suppliers/' + supplier.id) }} className="hover:bg-base-300 cursor-pointer">
                             <td>{supplier.name}</td>
-                            <td className="flex justify-center">
-                                <Link onClick={e => {e.stopPropagation()}} to={'/suppliers/'+supplier.id+'/edit'} className="hover:text-primary">
-                                    <Icon name="pencil" className="w-5"/>
-                                </Link>
-                                <button onClick={e => {e.stopPropagation()}} className="hover:text-error">
-                                    <Icon name="bin" className="w-5"/>
-                                </button>
+                            <td className="sticky right-0 bg-base-100">
+                                <div className="flex justify-center">
+                                    <Link onClick={e => {e.stopPropagation()}} to={'/suppliers/'+supplier.id+'/edit'} className="hover:text-primary">
+                                        <Icon name="pencil" className="w-5"/>
+                                    </Link>
+                                    <button onClick={e => {e.stopPropagation()}} className="hover:text-error">
+                                        <Icon name="bin" className="w-5"/>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     ))}

@@ -59,7 +59,7 @@ export default function DashboardLayout() {
                     </ul>
                 </div>
                 {/* Make only this part scroll */}
-                <div className="flex-1 m-2 md:ml-0 overflow-auto">
+                <div className="flex-1 m-2 mb-0 md:ml-0 overflow-auto">
                     <Outlet />
                 </div>
             </div>

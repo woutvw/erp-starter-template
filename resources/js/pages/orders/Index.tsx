@@ -37,13 +37,15 @@ export default function OrderList() {
                             <td>{order.status}</td>
                             <td>€ {order.total_price}</td>
                             <td>{order.date}</td>
-                            <td className="flex justify-center">
-                                <Link onClick={e => {e.stopPropagation()}} to={'/orders/'+order.id+'/edit'} className="hover:text-primary">
-                                    <Icon name="pencil" className="w-5"/>
-                                </Link>
-                                <button className="hover:text-error cursor-pointer">
-                                    <Icon name="bin" className="w-5"/>
-                                </button>
+                            <td className="sticky right-0 bg-base-100">
+                                <div className="flex justify-center">
+                                    <Link onClick={e => {e.stopPropagation()}} to={'/orders/'+order.id+'/edit'} className="hover:text-primary">
+                                        <Icon name="pencil" className="w-5"/>
+                                    </Link>
+                                    <button className="hover:text-error cursor-pointer">
+                                        <Icon name="bin" className="w-5"/>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     ))}
