@@ -1,6 +1,7 @@
 import Bin from "./icons/Bin";
 import ClientsIcon from "./icons/Clients";
 import Dollar from "./icons/Dollar";
+import Hamburger from "./icons/Hamburger";
 import HomeIcon from "./icons/Home";
 import PencilIcon from "./icons/Pencil";
 import ReceiptIcon from "./icons/Receipt";
@@ -8,6 +9,7 @@ import SearchIcon from "./icons/Search";
 import TrendDown from "./icons/TrendDown";
 import TrendUp from "./icons/TrendUp";
 import Warehouse from "./icons/Warehouse";
+import XMark from "./icons/XMark";
 
 export default function Icon({name, className = ''}: {name: string, className?: string}){
     // icons: https://www.svgrepo.com/collection/dazzle-line-icons
@@ -22,6 +24,8 @@ export default function Icon({name, className = ''}: {name: string, className?: 
         case 'trend-up': return <div className={className}><TrendUp/></div>;
         case 'trend-down': return <div className={className}><TrendDown/></div>;
         case 'dollar': return <div className={className}><Dollar/></div>;
+        case 'hamburger': return <div className={className}><Hamburger/></div>;
+        case 'x-mark': return <div className={className}><XMark/></div>;
     }
     return <></>
 }
