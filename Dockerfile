@@ -33,7 +33,10 @@ RUN composer global require laravel/installer
 ENV PATH="$PATH:/root/.composer/vendor/bin"
 
 # Install Node.js (includes npm)
-RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x -o /tmp/setup_22.x \
+    && echo "575583bbac2fccc0b5edd0dbc03e222d9f9dc8d724da996d22754d6411104fd1 /tmp/setup_22.x" | sha256sum -c - \
+    && bash /tmp/setup_22.x \
+    && rm /tmp/setup_22.x \
     && apt-get install -y nodejs
 
 # Verify npm and node installation
